@@ -1,11 +1,10 @@
 package model
 
-
-
 const (
-	CollectionOrder = "order"
-	CollectionProduct = "product"
-	CollectionShop = "shop"
+	CollectionOrder         = "order"
+	CollectionProduct       = "product"
+	CollectionShop          = "shop"
+	CollectionInvoiceDetail = "invoiceDetail"
 )
 
 // order
@@ -29,7 +28,7 @@ const (
 	PaymentUnpaid Payment = 2
 )
 
-func (s State) IsValid() bool{
+func (s State) IsValid() bool {
 	switch s {
 	case StatePlaceOrder, StateDelivering, StateDelivered, StateCancel, StateFinish:
 		return true
@@ -37,7 +36,7 @@ func (s State) IsValid() bool{
 	return false
 }
 
-func (s State) String() string{
+func (s State) String() string {
 	switch s {
 	case StatePlaceOrder:
 		return "下单未发货"
@@ -57,7 +56,7 @@ func (s State) Value() int {
 	return int(s)
 }
 
-func (p Payment) IsValid() bool{
+func (p Payment) IsValid() bool {
 	switch p {
 	case PaymentPaid, PaymentUnpaid:
 		return true
@@ -65,7 +64,7 @@ func (p Payment) IsValid() bool{
 	return false
 }
 
-func (p Payment) String() string{
+func (p Payment) String() string {
 	switch p {
 	case PaymentPaid:
 		return "已支付"
