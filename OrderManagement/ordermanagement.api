@@ -1,0 +1,160 @@
+syntax = "v1"
+
+type Request {
+	Name string `path:"name,options=you|me"`
+}
+
+type Response {
+	Message string `json:"message"`
+}
+
+type (
+	PostProduct {
+		Name          string `json:"name,omitempty"`          // 商品名称
+		Price         Price  `json:"price,omitempty"`         // 商品价格
+		Specification int    `json:"specification,omitempty"` // 规格
+		IsActive      bool   `json:"isActive,omitempty"`      // 是否生效
+		Image         string `json:"image,omitempty"`         // 图片
+		NickName      string `json:"nickName,omitempty"`      // 别名
+		BarCode       string `json:"barCode,omitempty"`       //条码
+	}
+
+	ListProductReq {
+		ProductId string `json:"productId,optional"`
+		Name      string `json:"name,optional"`     // 商品名称
+		IsActive  bool   `json:"isActive,optional"` // 是否生效
+		NickName  string `json:"nickName,optional"` // 别名
+		BarCode   string `json:"barCode,optional"`  //条码
+	}
+
+	ListProductResp {
+		Items []*Product `json:"items"`
+		Count int        `json:"count"`
+	}
+
+	Product {
+		ProductId     string `json:"productId"`
+		Name          string `json:"name,omitempty"` // 商品名称
+		Price         Price  `json:"price,omitempty"`
+		Specification int    `json:"specification,omitempty"` // 规格
+		IsActive      bool   `json:"isActive,omitempty"`      // 是否生效
+		Image         string `json:"image,omitempty"`         // 图片
+		NickName      string `json:"nickName,omitempty"`      // 别名
+		BarCode       string `json:"barCode,omitempty"`       //条码
+
+	}
+
+	// Price 价格应该写在订单上,该Price只用作展示
+	Price {
+		Terminal  float64 `json:"terminal,omitempty"`  // 终端零售价
+		WholeSale float64 `json:"wholesale,omitempty"` // 批发零售价
+		Cost      float64 `json:"cost,omitempty"`      // 进价
+		SRP       float64 `json:"srp,omitempty"`       // 建议零售价 Suggested Retail Price
+		Warning   float64 `json:"warning,omitempty"`   // 报警价格
+	}
+
+	PostOrder {
+		Products []*Products `json:"products,optional"`
+		// 商店Id
+		ShopId string `json:"shopId"`
+		// 商店名称
+		ShopName string `json:"shopName"`
+		// 收货地址
+		Address string `json:"address"`
+		// 业务ID
+		PurchaserId string `json:"purchaserId"`
+		// 支付状态
+		Payment int `json:"payment"`
+	}
+
+	PutOrderReq {
+		ProductId string `json:"productId"`
+		// 货品列表
+		Products []*Products `json:"products,optional"`
+		// 收货地址
+		Address string `json:"address,optional"`
+		// 配送状态
+		State int `json:"state,optional"`
+		// 支付状态
+		Payment int `json:"payment,optional"`
+	}
+
+	ListOrderRequest {
+		State     int    `form:"state"`
+		ShopId    string `form:"shopId"`
+		ProductID string `form:"productId"`
+		Page      int    `form:"page"`
+		Size      int    `form:"size"`
+	}
+
+	ListOrderResp {
+		Items []*Order `json:"items"`
+		Count int64    `json:"count"`
+	}
+
+	Order {
+		OrderId  string      `json:"orderId"`
+		Products []*Products `json:"products"`
+		// 商店Id
+		ShopId string `json:"shopId"`
+		// 商店名称
+		ShopName string `json:"shopName"`
+		// 收货地址
+		Address string `json:"address"`
+		// 配送状态
+		State int `json:"state"`
+		// 支付状态
+		Payment int `json:"payment"`
+		// 送货司机
+		DriverId string `json:"driverId,optional"`
+		// 下单人
+		PurchaserId string `json:"purchaserId"`
+		// 更新时间
+		UpdateTime int64 `json:"updateTime"`
+		// 创建时间
+		CreateTime int64 `json:"createTime"`
+	}
+
+	Products {
+		// 商品ID
+		ProductId string `json:"productId"`
+		// 商品名称
+		ProductName string `json:"productName"`
+		// 商品价格
+		Price float64 `json:"price"`
+		// 商品数量
+		Count int `json:"count"`
+	}
+)
+
+@server (
+	group: order
+	prefix: /v1
+)
+
+service Management {
+	@handler AddOrder
+	post /order(PostOrder)
+
+	@handler ListOrder
+	get /order(ListOrderRequest) returns (ListOrderResp)
+
+	@handler UpdateOrder
+	put /order(PutOrderReq)
+}
+
+@server (
+	group: product
+	prefix: /v1
+)
+
+service Management {
+	@handler AddProduct
+	post /product(PostProduct)
+
+	@handler UpdateProduct
+	put /product(PostProduct)
+
+	@handler ListProduct
+	get /product(ListProductReq) returns (ListProductResp)
+}
