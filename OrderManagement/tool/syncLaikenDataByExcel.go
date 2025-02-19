@@ -1,4 +1,4 @@
-package laiken
+package tool
 
 import (
 	"OrderManagement/OrderManagement/internal/model"
@@ -14,7 +14,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func NewLaikenDataProcess(ctx context.Context, svcCtx *svc.ServiceContext) {
+type LaikenDataProcess struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+}
+
+func NewLaikenDataProcess(ctx context.Context, svcCtx *svc.ServiceContext) *LaikenDataProcess {
+	return &LaikenDataProcess{
+		ctx:    ctx,
+		svcCtx: svcCtx,
+	}
+
+}
+
+// 从 excel导入数据
+func (m *LaikenDataProcess) GetLaikenDataFromExcel() {
 	// 1.查找excel位置
 	f, err := excelize.OpenFile("data/nongfu/2024.xlsx")
 	if err != nil {
@@ -46,58 +60,9 @@ func NewLaikenDataProcess(ctx context.Context, svcCtx *svc.ServiceContext) {
 	}
 
 	//  3. 数据插入
-	err = svcCtx.InvoiceDetail.InsertMany(ctx, details)
+	err = m.svcCtx.InvoiceDetail.InsertMany(m.ctx, details)
 	if err != nil {
 		return
-	}
-
-}
-
-// 从 excel导入数据
-func GetLaikenDataFromExcel() {
-	f, err := excelize.OpenFile("data/nongfu/2024.xlsx")
-	if err != nil {
-		log.Fatalf("Failed to open Excel file: %v", err)
-		return
-	}
-	defer f.Close()
-
-	// // 获取工作表中指定单元格的值
-	// cell, err := f.GetCellValue("销售明细查询", "B2")
-	// if err != nil {
-	// 	log.Fatalf("Failed to get cell value: %v", err)
-	// 	return
-	// }
-	// fmt.Println(cell)
-
-	err, collection := InitMongo()
-	if err != nil {
-		log.Fatalf("Failed to initialize MongoDB: %v", err)
-		return
-	}
-
-	students := []interface{}{}
-
-	// 获取 Sheet1 上所有单元格
-	rows, err := f.GetRows("销售明细查询")
-	if err != nil {
-		log.Fatalf("Failed to get rows: %v", err)
-		return
-	}
-	for index, row := range rows {
-		if index < 5 {
-			continue
-		}
-		detail, err := parseRow(row)
-		if err != nil {
-			log.Printf("Error parsing row %d: %s", index, err.Error())
-			continue
-		}
-		students = append(students, detail)
-	}
-	_, err = collection.InsertMany(context.TODO(), students)
-	if err != nil {
-		log.Fatalf("Failed to insert data into MongoDB: %v", err)
 	}
 	log.Println("Data inserted successfully")
 }

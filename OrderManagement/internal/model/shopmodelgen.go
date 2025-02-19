@@ -27,8 +27,8 @@ func newDefaultShopModel(conn *mon.Model) *defaultShopModel {
 }
 
 func (m *defaultShopModel) Insert(ctx context.Context, data *Shop) error {
-	if data.ID.IsZero() {
-		data.ID = primitive.NewObjectID()
+	if data.ID!=""  {
+		data.ID = primitive.NewObjectID().String()
 		data.CreateAt = time.Now()
 		data.UpdateAt = time.Now()
 	}
