@@ -26,18 +26,15 @@ type Order struct {
 	// 配送司机
 	DriverId string `bson:"driverId" json:"driverId"`
 	// picture 回单照片
-	Picture string `bson:"picture" json:"picture"`
+	Picture  string    `bson:"picture" json:"picture"`
 	UpdateAt time.Time `bson:"updateAt,omitempty" json:"updateAt,omitempty"`
 	CreateAt time.Time `bson:"createAt,omitempty" json:"createAt,omitempty"`
 }
 
 type Products struct {
-	// 商品ID
-	ProductId string `bson:"productId" json:"productId"`
-	// 商品名称
-	ProductName string `bson:"productName" json:"productName"`
-	// 商品价格
-	Price  float64  `bson:"price" json:"price"`
+	Product *Product `bson:"product" json:"product"`
 	// 商品数量
-	Count  int    `bson:"count" json:"count"`
+	Count float64 `bson:"count" json:"count"`
+	// 销售收入
+	SalesRevenue float64 `bson:"salesRevenue" json:"salesRevenue"`
 }

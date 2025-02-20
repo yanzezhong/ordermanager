@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+type CustomerType string
+
 type Shop struct {
 	ID string `bson:"_id,omitempty" json:"id,omitempty"`
 	// TODO: Fill your own fields

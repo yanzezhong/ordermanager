@@ -26,8 +26,16 @@ const (
 	PaymentPaid Payment = 1
 	// PaymentUnpaid 未支付
 	PaymentUnpaid Payment = 2
+
+	// customerLevel
+
+	CustomerLevelTermianl  CustomerType = "终端客户"
+	CustomerLevelWholeSale CustomerType = "批发客户"
 )
 
+func (c CustomerType) String() string {
+	return string(c)
+}
 func (s State) IsValid() bool {
 	switch s {
 	case StatePlaceOrder, StateDelivering, StateDelivered, StateCancel, StateFinish:

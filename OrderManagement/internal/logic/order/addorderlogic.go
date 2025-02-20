@@ -26,33 +26,34 @@ func NewAddOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddOrder
 }
 
 func (l *AddOrderLogic) AddOrder(req *types.PostOrder) error {
-    // 将req中的同名字段添加到Order中
+	// 将req中的同名字段添加到Order中
 	order := &model.Order{
-		Address: req.Address,
-		ShopId: req.ShopId,
+		Address:  req.Address,
+		ShopId:   req.ShopId,
 		ShopName: req.ShopName,
-		
 	}
 
 	products := make([]*model.Products, 0)
 
-	for _, product := range req.Products {
-		p := &model.Products{
-			Count:       product.Count,
-			Price:       product.Price,
-			ProductId:   product.ProductId,
-			ProductName: product.ProductName,
-		}
-		products = append(products, p)
-	}
+	//todo  重写
+
+	// for _, product := range req.Products {
+	// 	// p := &model.Products{
+	// 	// 	Count:       product.Count,
+	// 	// 	Price:       product.Price,
+	// 	// 	ProductId:   product.ProductId,
+	// 	// 	ProductName: product.ProductName,
+	// 	// }
+	// 	products = append(products, p)
+	// }
 
 	order.Products = products
 	order.PurchaserId = req.PurchaserId
 
-	if model.Payment(req.Payment).IsValid(){
+	if model.Payment(req.Payment).IsValid() {
 		order.Payment = model.Payment(req.Payment)
-	}else{
-       return errorx.PaymentStatementInvalidError
+	} else {
+		return errorx.PaymentStatementInvalidError
 	}
 	return l.svcCtx.OrderModel.Insert(l.ctx, order)
 }
