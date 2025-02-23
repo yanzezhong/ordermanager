@@ -10,49 +10,44 @@ type Response {
 
 type (
 	PostProduct {
-		Name          string `json:"name,omitempty"`          // 商品名称
-		Price         Price  `json:"price,omitempty"`         // 商品价格
+		ProductID     string `json:"productId",omitempty`
+		Name          string `json:"name,omitempty"` // 商品名称
+		Price         *Price `json:"price,omitempty"` // 商品价格
 		Specification int    `json:"specification,omitempty"` // 规格
-		IsActive      bool   `json:"isActive,omitempty"`      // 是否生效
-		Image         string `json:"image,omitempty"`         // 图片
-		NickName      string `json:"nickName,omitempty"`      // 别名
-		BarCode       string `json:"barCode,omitempty"`       //条码
+		IsActive      *bool  `json:"isActive,omitempty"` // 是否生效
+		Image         string `json:"image,omitempty"` // 图片
+		NickName      string `json:"nickName,omitempty"` // 别名
+		BarCode       string `json:"barCode,omitempty"` //条码
 	}
-
 	ListProductReq {
 		ProductId string `json:"productId,optional"`
-		Name      string `json:"name,optional"`     // 商品名称
-		IsActive  bool   `json:"isActive,optional"` // 是否生效
+		Name      string `json:"name,optional"` // 商品名称
+		IsActive  *bool  `json:"isActive,optional"` // 是否生效
 		NickName  string `json:"nickName,optional"` // 别名
-		BarCode   string `json:"barCode,optional"`  //条码
+		BarCode   string `json:"barCode,optional"` //条码
 	}
-
 	ListProductResp {
 		Items []*Product `json:"items"`
-		Count int        `json:"count"`
+		Count int64      `json:"count"`
 	}
-
 	Product {
 		ProductId     string `json:"productId"`
 		Name          string `json:"name,omitempty"` // 商品名称
 		Price         Price  `json:"price,omitempty"`
 		Specification int    `json:"specification,omitempty"` // 规格
-		IsActive      bool   `json:"isActive,omitempty"`      // 是否生效
-		Image         string `json:"image,omitempty"`         // 图片
-		NickName      string `json:"nickName,omitempty"`      // 别名
-		BarCode       string `json:"barCode,omitempty"`       //条码
-
+		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
+		Image         string `json:"image,omitempty"` // 图片
+		NickName      string `json:"nickName,omitempty"` // 别名
+		BarCode       string `json:"barCode,omitempty"` //条码
 	}
-
 	// Price 价格应该写在订单上,该Price只用作展示
 	Price {
-		Terminal  float64 `json:"terminal,omitempty"`  // 终端零售价
+		Terminal  float64 `json:"terminal,omitempty"` // 终端零售价
 		WholeSale float64 `json:"wholesale,omitempty"` // 批发零售价
-		Cost      float64 `json:"cost,omitempty"`      // 进价
-		SRP       float64 `json:"srp,omitempty"`       // 建议零售价 Suggested Retail Price
-		Warning   float64 `json:"warning,omitempty"`   // 报警价格
+		Cost      float64 `json:"cost,omitempty"` // 进价
+		SRP       float64 `json:"srp,omitempty"` // 建议零售价 Suggested Retail Price
+		Warning   float64 `json:"warning,omitempty"` // 报警价格
 	}
-
 	PostOrder {
 		Products []*Products `json:"products,optional"`
 		// 商店Id
@@ -66,7 +61,6 @@ type (
 		// 支付状态
 		Payment int `json:"payment"`
 	}
-
 	PutOrderReq {
 		ProductId string `json:"productId"`
 		// 货品列表
@@ -78,7 +72,6 @@ type (
 		// 支付状态
 		Payment int `json:"payment,optional"`
 	}
-
 	ListOrderRequest {
 		State     int    `form:"state"`
 		ShopId    string `form:"shopId"`
@@ -86,12 +79,10 @@ type (
 		Page      int    `form:"page"`
 		Size      int    `form:"size"`
 	}
-
 	ListOrderResp {
 		Items []*Order `json:"items"`
 		Count int64    `json:"count"`
 	}
-
 	Order {
 		OrderId  string      `json:"orderId"`
 		Products []*Products `json:"products"`
@@ -114,7 +105,6 @@ type (
 		// 创建时间
 		CreateTime int64 `json:"createTime"`
 	}
-
 	Products {
 		// 商品ID
 		ProductId string `json:"productId"`
@@ -125,36 +115,132 @@ type (
 		// 商品数量
 		Count int `json:"count"`
 	}
+	ProductSalesTrendReq {
+		ProductID string `form:"productId,optional"` // 商品ID
+		StartTime int64  `form:"startTime,optional"` // 开始时间戳
+		EndTime   int64  `form:"endTime,optional"` // 结束时间戳
+	}
+	ProductSalesTrendResp {
+		Items []ProductSalesTrendItem `json:"items"`
+	}
+	ProductSalesTrendItem {
+		Date    string  `json:"date"`
+		Sales   int     `json:"sales"`
+		Revenue float64 `json:"revenue"`
+	}
+	PostShop {
+		ID            string `json:"id,omitempty"`
+		ShopName      string `json:"shop_name,omitempty"`
+		CustomerLevel string `json:"customer_level,omitempty"`
+		Address       string `json:"address,omitempty"`
+		ShopNameMD5   string `json:"shop_name_md5,omitempty"`
+		PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+	}
+	Shop {
+		ID            string `bson:"_id,omitempty" json:"id,omitempty"`
+		ShopName      string `bson:"shopName,omitempty" json:"shop_name,omitempty"`
+		CustomerLevel string `bson:"customerLevel,omitempty" json:"customer_level,omitempty"`
+		Address       string `bson:"address,omitempty" json:"address,omitempty"`
+		ShopNameMD5   string `bson:"shopNameMD5,omitempty" json:"shop_name_md5,omitempty"`
+		PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+		UpdateAt      int64  `json:"update_at,omitempty"`
+		CreateAt      int64  `json:"create_at,omitempty"`
+	}
+	ListShopReq {
+		Page          int    `form:"page"` // 当前页码
+		Size          int    `form:"size"` // 每页大小
+		ShopName      string `form:"shopName,optional"` // 商店名称
+		CustomerLevel string `form:"customerLevel,optional"` // 客户级别
+		Address       string `form:"address,optional"` // 地址
+		PhoneNumber   string `form:"phoneNumber,optional"` // 电话号码
+	}
+	ListShopResp {
+		Items []*Shop `json:"items"` // 商店列表
+		Count int64   `json:"count"` // 总记录数
+	}
+	SKUMonth {
+		Handler      string  `json:"handler"` // 经手人，记录处理单据的人员
+		SKU          string  `json:"sku"` // SKU 编码
+		SalesRevenue float64 `json:"sales_revenue"` // 销售收入，记录销售的总收入
+	}
+	InvoiceShopMonth {
+		Year          int         `json:"year"` // 年份
+		Month         int         `json:"month"` // 月份
+		Customer      string      `json:"customer"` // 客户名称，记录与单据相关的客户
+		CustomerLevel string      `json:"customer_level"` // 客户级别，例如普通客户、VIP客户等
+		Handler       []string    `json:"handler"` // 经手人，记录处理单据的人员
+		SalesRevenue  float64     `json:"sales_revenue"` // 销售收入，记录销售的总收入
+		SKUNum        int         `json:"sku_num"` // SKU 数量
+		SKU           []*SKUMonth `json:"sku"` // SKU 列表
+		DisSKU        []string    `json:"dis_sku"` // 失效 SKU 列表
+		NewSKU        []string    `json:"new_sku"` // 新增 SKU 列表
+	}
+	ShopSalesStatsItem {
+		Year             int                 `json:"year"` // 年份
+		Month            int                 `json:"month"` // 月份
+		InvoiceShopMonth []*InvoiceShopMonth `json:"invoice_shop_month"`
+	}
+	ShopSalesStatsReq {
+		ShopID    string `form:"ShopId,optional"` // 商品ID
+		ShopName  string `form:"ShopName,optional"` // 商店名称
+		Handler   string `json:"handler,optional"` // 经手人，记录处理单据的人员
+		StartTime int64  `form:"startTime,optional"` // 开始时间戳
+		EndTime   int64  `form:"endTime,optional"` // 结束时间戳
+	}
+	ShopSalesStatsResp {
+		Items []*ShopSalesStatsItem `json:"items"`
+		Count int64                 `json:"count"`
+	}
 )
 
 @server (
-	group: order
+	group:  order
 	prefix: /v1
 )
-
-service Management {
+service OrderManagement {
 	@handler AddOrder
-	post /order(PostOrder)
+	post /order (PostOrder)
 
 	@handler ListOrder
-	get /order(ListOrderRequest) returns (ListOrderResp)
+	get /order (ListOrderRequest) returns (ListOrderResp)
 
 	@handler UpdateOrder
-	put /order(PutOrderReq)
+	put /order (PutOrderReq)
 }
 
 @server (
-	group: product
+	group:  product
 	prefix: /v1
 )
-
-service Management {
+service OrderManagement {
 	@handler AddProduct
-	post /product(PostProduct)
+	post /product (PostProduct)
 
 	@handler UpdateProduct
-	put /product(PostProduct)
+	put /product (PostProduct)
 
 	@handler ListProduct
-	get /product(ListProductReq) returns (ListProductResp)
+	get /product (ListProductReq) returns (ListProductResp)
+
+	@handler GetProductSalesStats
+	get /product/sales/trend (ProductSalesTrendReq) returns (ProductSalesTrendResp)
 }
+
+@server (
+	group:  shop
+	prefix: /v1
+)
+service OrderManagement {
+	@handler AddShop
+	post /shop (PostShop)
+
+	@handler UpdateShop
+	put /shop (PostShop)
+
+	@handler ListShop
+	get /shop (ListShopReq) returns (ListShopResp)
+
+	@handler GetShopSalesStats
+	get /shop/sales/stats (ShopSalesStatsReq) returns (ShopSalesStatsResp)
+}
+

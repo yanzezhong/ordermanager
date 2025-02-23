@@ -19,7 +19,7 @@ type (
 	ProductModel interface {
 		productModel
 		InsertMany(ctx context.Context, data []*Product) (*mongo.InsertManyResult, error)
-		Search(ctx context.Context, cond ProductCond) ([]*Order, int64, error)
+		Search(ctx context.Context, cond ProductCond) ([]*Product, int64, error)
 	}
 
 	customProductModel struct {
@@ -98,11 +98,11 @@ func (c *ProductCond) genCond() bson.M {
 	return filter
 }
 
-func (m *customProductModel) Search(ctx context.Context, cond ProductCond) ([]*Order, int64, error) {
+func (m *customProductModel) Search(ctx context.Context, cond ProductCond) ([]*Product, int64, error) {
 	option := cond.GeneratePageOption()
 	option.SetSort(bson.M{"_id": -1})
 
-	var r []*Order
+	var r []*Product
 	filter := cond.genCond()
 	err := m.conn.Find(ctx, &r, filter, option)
 	if err != nil {

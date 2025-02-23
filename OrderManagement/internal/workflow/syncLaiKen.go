@@ -27,6 +27,7 @@ func NewSyncLaikenData(ctx context.Context, svcCtx *svc.ServiceContext) *SyncLai
 
 // 将laiken数据同步至各个数据库
 // 这个数据只是用来统计数据的,只是临时方案，当全部同步方案上线后，就要关闭
+// todo 等待测试
 func (m *SyncLaikenData) syncLaikenData() {
 	cond := model.InvoiceDetailCond{}
 	datas, _, err := m.svcCtx.InvoiceDetail.Search(m.ctx, &cond)
@@ -143,12 +144,12 @@ func (m *SyncLaikenData) syncLaikenData() {
 
 func (*SyncLaikenData) genShop(v *model.InvoiceDetail) *model.Shop {
 	shop := &model.Shop{
-		ShopName:     v.Customer,
-		CustomerType: v.CustomerLevel,
-		Address:      "",
-		PhoneNumber:  "",
-		UpdateAt:     v.UpdateAt,
-		CreateAt:     v.CreateAt,
+		ShopName:      v.Customer,
+		CustomerLevel: v.CustomerLevel,
+		Address:       "",
+		PhoneNumber:   "",
+		UpdateAt:      v.UpdateAt,
+		CreateAt:      v.CreateAt,
 	}
 
 	hash := md5.Sum([]byte(shop.ShopName))
