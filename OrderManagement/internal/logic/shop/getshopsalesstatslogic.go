@@ -24,7 +24,6 @@ func NewGetShopSalesStatsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *GetShopSalesStatsLogic) GetShopSalesStats(req *types.ShopSalesStatsReq) (resp *types.ShopSalesStatsResp, err error) {
-	// todo: add your logic here and delete this line
 
 	return
 }

@@ -24,7 +24,6 @@ func NewUpdateShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateShopLogic) UpdateShop(req *types.PostShop) error {
-	// todo: add your logic here and delete this line
-
+	// 暂时不写
 	return nil
 }

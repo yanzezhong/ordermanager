@@ -95,7 +95,6 @@ type PostShop struct {
 	ShopName      string `json:"shop_name,omitempty"`
 	CustomerLevel string `json:"customer_level,omitempty"`
 	Address       string `json:"address,omitempty"`
-	ShopNameMD5   string `json:"shop_name_md5,omitempty"`
 	PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
 }
 
