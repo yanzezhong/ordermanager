@@ -125,6 +125,146 @@ type (
 		// 商品数量
 		Count int `json:"count"`
 	}
+	ProductSalesTrendReq {
+		ProductID string `form:"productId,optional"` // 商品ID
+		StartTime int64  `form:"startTime,optional"` // 开始时间戳
+		EndTime   int64  `form:"endTime,optional"` // 结束时间戳
+	}
+	ProductSalesTrendResp {
+		Items []ProductSalesTrendItem `json:"items"`
+	}
+	ProductSalesTrendItem {
+		Date    string  `json:"date"`
+		Sales   int     `json:"sales"`
+		Revenue float64 `json:"revenue"`
+	}
+	PostShop {
+		ID            string `json:"id,omitempty"`
+		ShopName      string `json:"shop_name,omitempty"`
+		CustomerLevel string `json:"customer_level,omitempty"`
+		Address       string `json:"address,omitempty"`
+		PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+	}
+	Shop {
+		ID            string `bson:"_id,omitempty" json:"id,omitempty"`
+		ShopName      string `bson:"shopName,omitempty" json:"shop_name,omitempty"`
+		CustomerLevel string `bson:"customerLevel,omitempty" json:"customer_level,omitempty"`
+		Address       string `bson:"address,omitempty" json:"address,omitempty"`
+		ShopNameMD5   string `bson:"shopNameMD5,omitempty" json:"shop_name_md5,omitempty"`
+		PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+		UpdateAt      int64  `json:"update_at,omitempty"`
+		CreateAt      int64  `json:"create_at,omitempty"`
+	}
+	ListShopReq {
+		Page          int    `form:"page"` // 当前页码
+		Size          int    `form:"size"` // 每页大小
+		ShopName      string `form:"shopName,optional"` // 商店名称
+		CustomerLevel string `form:"customerLevel,optional"` // 客户级别
+		Address       string `form:"address,optional"` // 地址
+		PhoneNumber   string `form:"phoneNumber,optional"` // 电话号码
+	}
+	ListShopResp {
+		Items []*Shop `json:"items"` // 商店列表
+		Count int64   `json:"count"` // 总记录数
+	}
+	SKUMonth {
+		Handler      string  `json:"handler"` // 经手人，记录处理单据的人员
+		SKU          string  `json:"sku"` // SKU 编码
+		SalesRevenue float64 `json:"sales_revenue"` // 销售收入，记录销售的总收入
+	}
+	InvoiceShopMonth {
+		Year          int         `json:"year"` // 年份
+		Month         int         `json:"month"` // 月份
+		Customer      string      `json:"customer"` // 客户名称，记录与单据相关的客户
+		CustomerLevel string      `json:"customer_level"` // 客户级别，例如普通客户、VIP客户等
+		Handler       []string    `json:"handler"` // 经手人，记录处理单据的人员
+		SalesRevenue  float64     `json:"sales_revenue"` // 销售收入，记录销售的总收入
+		SKUNum        int         `json:"sku_num"` // SKU 数量
+		SKU           []*SKUMonth `json:"sku"` // SKU 列表
+		DisSKU        []string    `json:"dis_sku"` // 失效 SKU 列表
+		NewSKU        []string    `json:"new_sku"` // 新增 SKU 列表
+	}
+	ShopSalesStatsItem {
+		Year             int                 `json:"year"` // 年份
+		Month            int                 `json:"month"` // 月份
+		InvoiceShopMonth []*InvoiceShopMonth `json:"invoice_shop_month"`
+	}
+	ShopSalesStatsReq {
+		ShopID    string `form:"ShopId,optional"` // 商品ID
+		ShopName  string `form:"ShopName,optional"` // 商店名称
+		Handler   string `json:"handler,optional"` // 经手人，记录处理单据的人员
+		StartTime int64  `form:"startTime,optional"` // 开始时间戳
+		EndTime   int64  `form:"endTime,optional"` // 结束时间戳
+	}
+	ShopSalesStatsResp {
+		Items []*ShopSalesStatsItem `json:"items"`
+		Count int64                 `json:"count"`
+	}
+
+
+	// ResultAuthenticationToken
+ LoginResp struct {
+	Code string              `json:"code,omitempty"`
+	Data *AuthenticationToken `json:"data,omitempty"`
+	Msg  string              `json:"msg,omitempty"`
+}
+
+
+AuthResp struct {
+	Code string `json:"code,omitempty"`
+	Data interface{} `json:"data,omitempty"`
+	Msg  string `json:"msg,omitempty"`
+}
+
+// AuthenticationToken, 认证令牌响应对象
+ AuthenticationToken struct {
+	// 访问令牌              
+	AccessToken  *string `json:"accessToken,omitempty"`
+	// 过期时间(单位：秒)        
+	ExpiresIn    *int64  `json:"expiresIn,omitempty"`
+	// 刷新令牌              
+	RefreshToken *string `json:"refreshToken,omitempty"`
+	// 令牌类型              
+	TokenType    *string `json:"tokenType,omitempty"`
+}
+
+LoginReq struct {
+	// 密码           
+	Password string `form:"password"`
+	// 用户名          
+	Username string `form:"username"`
+}
+
+ RefreshTokenReq struct {
+	// 刷新令牌             
+	RefreshToken string `form:"refreshToken"`
+}
+
+
+CaptchaReq struct{
+
+}
+
+
+// ResultCaptchaInfo
+type CaptchaResp struct {
+	Code string      `json:"code,omitempty"`
+	Data *CAPTCHAInfo `json:"data,omitempty"`
+	Msg  string      `json:"msg,omitempty"`
+}
+
+// CaptchaInfo, 验证码信息
+type CAPTCHAInfo struct {
+	// 验证码图片Base64字符串        
+	CAPTCHABase64    *string `json:"captchaBase64,omitempty"`
+	// 验证码缓存 Key             
+	CAPTCHAKey       *string `json:"captchaKey,omitempty"`
+}
+
+LogoutReq struct{
+
+}
+
 )
 
 @server (
@@ -156,5 +296,44 @@ service Management {
 	put /product(PostProduct)
 
 	@handler ListProduct
-	get /product(ListProductReq) returns (ListProductResp)
+	get /product (ListProductReq) returns (ListProductResp)
+
+	@handler GetProductSalesStats
+	get /product/sales/trend (ProductSalesTrendReq) returns (ProductSalesTrendResp)
+}
+
+@server (
+	group:  shop
+	prefix: /v1
+)
+service OrderManagement {
+	@handler AddShop
+	post /shop (PostShop)
+
+	@handler UpdateShop
+	put /shop (PostShop)
+
+	@handler ListShop
+	get /shop (ListShopReq) returns (ListShopResp)
+
+	@handler GetShopSalesStats
+	get /shop/sales/stats (ShopSalesStatsReq) returns (ShopSalesStatsResp)
+}
+
+@server (
+	group:  auth
+	prefix: /v1/auth
+)
+service OrderManagement {
+	@handler Login
+	post /login (Loginreq) returns (LoginResp)
+
+	@handler RefreshToken
+	post /refresh-token (RefreshTokenReq) returns  (AuthResp)
+
+	@handler Captcha
+	get /captcha (CaptchaReq) returns (CaptchaResp)
+
+	@handler Logout
+	delete /logout (LogoutReq) returns (AuthResp)
 }
