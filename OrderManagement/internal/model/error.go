@@ -9,4 +9,5 @@ import (
 var (
 	ErrNotFound        = mon.ErrNotFound
 	ErrInvalidObjectId = errors.New("invalid objectId")
+	ErrInvalidUserId   = errors.New("invalid objectId")
 )
