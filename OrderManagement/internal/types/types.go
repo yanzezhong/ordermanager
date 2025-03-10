@@ -3,17 +3,25 @@
 
 package types
 
-type AuthResp struct {
-	Code string      `json:"code,omitempty"`
-	Data interface{} `json:"data,omitempty"`
-	Msg  string      `json:"msg,omitempty"`
+type AddUserReq struct {
+	Avatar   *string `json:"avatar,omitempty"`
+	DeptID   *int64  `json:"deptId,omitempty"`
+	Email    *string `json:"email,omitempty"`
+	Gender   *int64  `json:"gender,omitempty"`
+	ID       *int64  `json:"id,omitempty"`
+	Mobile   *string `json:"mobile,omitempty"`
+	Nickname string  `json:"nickname"`
+	OpenID   *string `json:"openId,omitempty"`
+	RoleIDS  []int64 `json:"roleIds"`
+	Status   *int64  `json:"status,omitempty"`
+	Username string  `json:"username"`
 }
 
 type AuthenticationToken struct {
 	AccessToken  string `json:"accessToken,omitempty"`
 	ExpiresIn    int64  `json:"expiresIn,omitempty"`
 	RefreshToken string `json:"refreshToken,omitempty"`
-	TokenType    string `json:"tokenType,omitempty"`
+	Token        string `json:"token,omitempty"`
 }
 
 type CAPTCHAInfo struct {
@@ -28,6 +36,15 @@ type CaptchaResp struct {
 	Code string       `json:"code,omitempty"`
 	Data *CAPTCHAInfo `json:"data,omitempty"`
 	Msg  string       `json:"msg,omitempty"`
+}
+
+type DataUserPageVO struct {
+	List  []UserPageVO `json:"list,omitempty"`
+	Total *int64       `json:"total,omitempty"`
+}
+
+type DeleUserReq struct {
+	IDS string `jsonjson:"ids"`
 }
 
 type InvoiceShopMonth struct {
@@ -96,6 +113,12 @@ type LoginResp struct {
 
 type LogoutReq struct {
 	Authorization string `header:"authorization"`
+}
+
+type NormalResp struct {
+	Code string      `json:"code,omitempty"`
+	Data interface{} `json:"data,omitempty"`
+	Msg  string      `json:"msg,omitempty"`
 }
 
 type Order struct {
@@ -236,4 +259,87 @@ type ShopSalesStatsReq struct {
 type ShopSalesStatsResp struct {
 	Items []*ShopSalesStatsItem `json:"items"`
 	Count int64                 `json:"count"`
+}
+
+type UpdateUserReq struct {
+	UserID int64 `path:"userId"`
+}
+
+type UserForm struct {
+	Avatar   *string `json:"avatar,omitempty"`
+	DeptID   *int64  `json:"deptId,omitempty"`
+	Email    *string `json:"email,omitempty"`
+	Gender   *int64  `json:"gender,omitempty"`
+	ID       *int64  `json:"id,omitempty"`
+	Mobile   *string `json:"mobile,omitempty"`
+	Nickname string  `json:"nickname"`
+	OpenID   *string `json:"openId,omitempty"`
+	RoleIDS  []int64 `json:"roleIds"`
+	Status   *int64  `json:"status,omitempty"`
+	Username string  `json:"username"`
+}
+
+type UserFormReq struct {
+	UserID int64 `path:"userId"`
+}
+
+type UserFormResp struct {
+	Code *string   `json:"code,omitempty"`
+	Data *UserForm `json:"data,omitempty"`
+	Msg  *string   `json:"msg,omitempty"`
+}
+
+type UserInfoVO struct {
+	Avatar   *string  `json:"avatar,omitempty"`
+	Nickname *string  `json:"nickname,omitempty"`
+	Perms    []string `json:"perms,omitempty"`
+	Roles    []string `json:"roles,omitempty"`
+	UserID   *int64   `json:"userId,omitempty"`
+	Username *string  `json:"username,omitempty"`
+}
+
+type UserListReq struct {
+	CreateTime *string `json:"createTime,omitempty"`
+	DeptID     *string `json:"deptId,omitempty"`
+	Direction  *string `json:"direction,omitempty"`
+	Field      *string `json:"field,omitempty"`
+	Keywords   *string `json:"keywords,omitempty"`
+	PageNum    string  `json:"pageNum"`
+	PageSize   string  `json:"pageSize"`
+	RoleIDS    *string `json:"roleIds,omitempty"`
+	Status     *string `json:"status,omitempty"`
+}
+
+type UserListResp struct {
+	Code *string         `json:"code,omitempty"`
+	Data *DataUserPageVO `json:"data,omitempty"`
+	Msg  *string         `json:"msg,omitempty"`
+}
+
+type UserPageVO struct {
+	Avatar     *string `json:"avatar,omitempty"`
+	CreateTime *string `json:"createTime,omitempty"`
+	DeptName   *string `json:"deptName,omitempty"`
+	Email      *string `json:"email,omitempty"`
+	Gender     *int64  `json:"gender,omitempty"`
+	ID         *int64  `json:"id,omitempty"`
+	Mobile     *string `json:"mobile,omitempty"`
+	Nickname   *string `json:"nickname,omitempty"`
+	RoleNames  *string `json:"roleNames,omitempty"`
+	Status     *int64  `json:"status,omitempty"`
+	Username   *string `json:"username,omitempty"`
+}
+
+type UserProfileReq struct {
+	UserID int64 `jsonjson:"userId"`
+}
+
+type UserReq struct {
+	Authorization string `header:"authorization"`
+}
+
+type UserResp struct {
+	Code *string     `json:"code,omitempty"`
+	Data *UserInfoVO `json:"data,omitempty"`
+	Msg  *string     `json:"msg,omitempty"`
 }

@@ -10,6 +10,7 @@ import (
 	order "OrderManagement/OrderManagement/internal/handler/order"
 	product "OrderManagement/OrderManagement/internal/handler/product"
 	shop "OrderManagement/OrderManagement/internal/handler/shop"
+	users "OrderManagement/OrderManagement/internal/handler/users"
 	"OrderManagement/OrderManagement/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -115,6 +116,47 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/users",
+				Handler: users.AdduserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/users/:ids",
+				Handler: users.DeleteUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/users/:userId",
+				Handler: users.UpdateUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/users/:userId/form",
+				Handler: users.UserFormHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/users/:userId/profile",
+				Handler: users.ProfileHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/users/me",
+				Handler: users.MeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/users/page",
+				Handler: users.PageHandler(serverCtx),
+			},
+		},
 		rest.WithPrefix("/v1"),
 	)
 }
