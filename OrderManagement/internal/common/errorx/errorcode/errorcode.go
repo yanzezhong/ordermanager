@@ -9,5 +9,7 @@ const (
 	ErrOrderNotFound       = 1000002 // 订单不存在
 	ErrStateInvalid        = 1000003 // 订单状态无效
 
+	ErrUserOrPasswordNotFound = 1010005
+
 	ErrDBError = 500001
 )

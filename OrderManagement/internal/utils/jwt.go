@@ -13,25 +13,44 @@ type JwtClaims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(c config.Config, username, password string) (string, error) {
+func GenerateToken(c config.Config, username, password string) (string, string, error) {
 	var jwtSecret = []byte(c.Auth.AccessSecret)
 
 	nowTime := time.Now()
-	expireTime := nowTime.Add(time.Duration(c.Auth.AccessExpire))
+	acccessExpireTime := nowTime.Add(time.Duration(c.Auth.AccessExpire))
+	refreshExpireTime := nowTime.Add(time.Duration(c.Auth.RefreshExpire))
 
-	claims := JwtClaims{
+	accessClaims := JwtClaims{
 		username,
 		password,
 		jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(),
+			ExpiresAt: acccessExpireTime.Unix(),
 			Issuer:    "orderManager",
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	SignedString, err := token.SignedString(jwtSecret)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, accessClaims)
 
-	return SignedString, err
+	accessTokenString, err := token.SignedString(jwtSecret)
+	if err != nil {
+		return "", "", err
+	}
+
+	refreshClaims := JwtClaims{
+		username,
+		password,
+		jwt.StandardClaims{
+			ExpiresAt: refreshExpireTime.Unix(),
+			Issuer:    "orderManager",
+		},
+	}
+
+	token = jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
+	refreshTokenString, err := token.SignedString(jwtSecret)
+	if err != nil {
+		return "", "", err
+	}
+	return accessTokenString, refreshTokenString, err
 }
 
 func ParseToken(c config.Config, token string) (*JwtClaims, error) {

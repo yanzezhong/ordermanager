@@ -2,9 +2,11 @@ package auth
 
 import (
 	"context"
+	"time"
 
 	"OrderManagement/OrderManagement/internal/svc"
 	"OrderManagement/OrderManagement/internal/types"
+	"OrderManagement/OrderManagement/internal/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +26,30 @@ func NewRefreshTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Refr
 }
 
 func (l *RefreshTokenLogic) RefreshToken(req *types.RefreshTokenReq) (resp *types.AuthResp, err error) {
-	// todo: add your logic here and delete this line
 
+	claims, err := getTokenClaims(req.Authorization, l.svcCtx.Config)
+	_, ok := l.svcCtx.TokenCache.Get(claims.Username)
+	if ok {
+		return &types.AuthResp{
+			Code: "401",
+			Msg:  "user logout",
+		}, nil
+	}
+	l.svcCtx.TokenCache.Set(req.RefreshToken, req.RefreshToken, 24*time.Hour)
+
+	accessToken, refreshToken, err := utils.GenerateToken(l.svcCtx.Config, claims.Username, claims.Password)
+	if err != nil {
+		return nil, err
+	}
+	resp = &types.AuthResp{
+		Code: "200",
+		Data: &types.AuthenticationToken{
+			AccessToken:  accessToken,
+			ExpiresIn:    l.svcCtx.Config.Auth.AccessExpire,
+			RefreshToken: refreshToken,
+			TokenType:    "Bearer",
+		},
+		Msg: "success",
+	}
 	return
 }

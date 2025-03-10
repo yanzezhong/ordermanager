@@ -5,6 +5,7 @@ import (
 
 	"OrderManagement/OrderManagement/internal/svc"
 	"OrderManagement/OrderManagement/internal/types"
+	"OrderManagement/OrderManagement/internal/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +25,15 @@ func NewCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CaptchaLo
 }
 
 func (l *CaptchaLogic) Captcha(req *types.CaptchaReq) (resp *types.CaptchaResp, err error) {
-	// todo: add your logic here and delete this line
+	captcha := utils.Captcha()
 
+	resp = &types.CaptchaResp{
+		Code: "200",
+		Data: &types.CAPTCHAInfo{
+			CAPTCHABase64: &captcha.Encode,
+			CAPTCHAKey:    &captcha.Id,
+		},
+		Msg: "success",
+	}
 	return
 }

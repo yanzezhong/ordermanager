@@ -37,19 +37,31 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	if err != nil {
 		return nil, err
 	}
+	//todo 整理代码
+	if len(users) < 1 {
+		return nil, errorx.OrderNotFoundError
 
-	if len(users) > 0 {
-		if users[0].Password == req.Password {
-			token, err := utils.GenerateToken(l.svcCtx.Config, users[0].UserName, users[0].Password)
-			if err != nil {
-				return nil, err
-			}
-			resp = &types.LoginResp{
-				Token: token,
-			}
-		} else {
-			return nil, errorx.NewCodeError(10001, "username or password error")
-		}
 	}
+
+	if users[0].Password == req.Password {
+		accessToken, refreshToken, err := utils.GenerateToken(l.svcCtx.Config, users[0].UserName, users[0].Password)
+		if err != nil {
+			return nil, err
+		}
+		//todo 整理代码
+		resp = &types.LoginResp{
+			Code: "200",
+			Data: &types.AuthenticationToken{
+				AccessToken:  accessToken,
+				ExpiresIn:    l.svcCtx.Config.Auth.AccessExpire,
+				RefreshToken: refreshToken,
+				TokenType:    "Bearer",
+			},
+			Msg: "success",
+		}
+	} else {
+		return nil, errorx.OrderNotFoundError
+	}
+
 	return
 }

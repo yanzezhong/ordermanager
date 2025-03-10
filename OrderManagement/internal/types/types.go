@@ -10,10 +10,10 @@ type AuthResp struct {
 }
 
 type AuthenticationToken struct {
-	AccessToken  *string `json:"accessToken,omitempty"`
-	ExpiresIn    *int64  `json:"expiresIn,omitempty"`
-	RefreshToken *string `json:"refreshToken,omitempty"`
-	TokenType    *string `json:"tokenType,omitempty"`
+	AccessToken  string `json:"accessToken,omitempty"`
+	ExpiresIn    int64  `json:"expiresIn,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+	TokenType    string `json:"tokenType,omitempty"`
 }
 
 type CAPTCHAInfo struct {
@@ -95,6 +95,7 @@ type LoginResp struct {
 }
 
 type LogoutReq struct {
+	Authorization string `header:"authorization"`
 }
 
 type Order struct {
@@ -189,7 +190,8 @@ type PutOrderReq struct {
 }
 
 type RefreshTokenReq struct {
-	RefreshToken string `form:"refreshToken"`
+	RefreshToken  string `form:"refreshToken"`
+	Authorization string `header:"authorization"`
 }
 
 type Request struct {
