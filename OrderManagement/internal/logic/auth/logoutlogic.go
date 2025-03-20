@@ -26,13 +26,13 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 	}
 }
 
-func (l *LogoutLogic) Logout(req *types.LogoutReq) (resp *types.AuthResp, err error) {
+func (l *LogoutLogic) Logout(req *types.LogoutReq) (resp *types.NormalResp, err error) {
 	//todo 替换为redis
 	claims, err := getTokenClaims(req.Authorization, l.svcCtx.Config)
 
 	l.svcCtx.TokenCache.Delete(claims.Username)
 
-	resp = &types.AuthResp{
+	resp = &types.NormalResp{
 		Code: "200",
 		Msg:  "success",
 	}

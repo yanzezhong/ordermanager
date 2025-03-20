@@ -4,24 +4,25 @@
 package types
 
 type AddUserReq struct {
-	Avatar   *string `json:"avatar,omitempty"`
-	DeptID   *int64  `json:"deptId,omitempty"`
-	Email    *string `json:"email,omitempty"`
-	Gender   *int64  `json:"gender,omitempty"`
-	ID       *int64  `json:"id,omitempty"`
-	Mobile   *string `json:"mobile,omitempty"`
-	Nickname string  `json:"nickname"`
-	OpenID   *string `json:"openId,omitempty"`
-	RoleIDS  []int64 `json:"roleIds"`
-	Status   *int64  `json:"status,omitempty"`
-	Username string  `json:"username"`
+	Avatar   string   `json:"avatar,omitempty"`
+	DeptID   int64    `json:"deptId,omitempty"`
+	Email    string   `json:"email,omitempty"`
+	Gender   int64    `json:"gender,omitempty"`
+	ID       *int64   `json:"id,omitempty"`
+	Mobile   string   `json:"mobile,omitempty"`
+	Nickname string   `json:"nickname"`
+	OpenID   string   `json:"openId,omitempty"`
+	RoleIDS  []string `json:"roleIds"`
+	Status   int64    `json:"status,omitempty"`
+	Username string   `json:"username"`
+	Password string   `json:"password"`
 }
 
 type AuthenticationToken struct {
 	AccessToken  string `json:"accessToken,omitempty"`
 	ExpiresIn    int64  `json:"expiresIn,omitempty"`
 	RefreshToken string `json:"refreshToken,omitempty"`
-	Token        string `json:"token,omitempty"`
+	TokenType    string `json:"tokenType,omitempty"`
 }
 
 type CAPTCHAInfo struct {
@@ -40,7 +41,7 @@ type CaptchaResp struct {
 
 type DataUserPageVO struct {
 	List  []UserPageVO `json:"list,omitempty"`
-	Total *int64       `json:"total,omitempty"`
+	Total int64        `json:"total,omitempty"`
 }
 
 type DeleUserReq struct {
@@ -290,12 +291,12 @@ type UserFormResp struct {
 }
 
 type UserInfoVO struct {
-	Avatar   *string  `json:"avatar,omitempty"`
-	Nickname *string  `json:"nickname,omitempty"`
+	Avatar   string   `json:"avatar,omitempty"`
+	Nickname string   `json:"nickname,omitempty"`
 	Perms    []string `json:"perms,omitempty"`
 	Roles    []string `json:"roles,omitempty"`
-	UserID   *int64   `json:"userId,omitempty"`
-	Username *string  `json:"username,omitempty"`
+	UserID   int64    `json:"userId,omitempty"`
+	Username string   `json:"username,omitempty"`
 }
 
 type UserListReq struct {
@@ -311,23 +312,23 @@ type UserListReq struct {
 }
 
 type UserListResp struct {
-	Code *string         `json:"code,omitempty"`
+	Code string          `json:"code,omitempty"`
 	Data *DataUserPageVO `json:"data,omitempty"`
-	Msg  *string         `json:"msg,omitempty"`
+	Msg  string          `json:"msg,omitempty"`
 }
 
 type UserPageVO struct {
-	Avatar     *string `json:"avatar,omitempty"`
-	CreateTime *string `json:"createTime,omitempty"`
-	DeptName   *string `json:"deptName,omitempty"`
-	Email      *string `json:"email,omitempty"`
-	Gender     *int64  `json:"gender,omitempty"`
-	ID         *int64  `json:"id,omitempty"`
-	Mobile     *string `json:"mobile,omitempty"`
-	Nickname   *string `json:"nickname,omitempty"`
-	RoleNames  *string `json:"roleNames,omitempty"`
-	Status     *int64  `json:"status,omitempty"`
-	Username   *string `json:"username,omitempty"`
+	Avatar     string   `json:"avatar,omitempty"`
+	CreateTime int64    `json:"createTime,omitempty"`
+	DeptName   string   `json:"deptName,omitempty"`
+	Email      string   `json:"email,omitempty"`
+	Gender     int64    `json:"gender,omitempty"`
+	ID         int64    `json:"id,omitempty"`
+	Mobile     string   `json:"mobile,omitempty"`
+	Nickname   string   `json:"nickname,omitempty"`
+	RoleNames  []string `json:"roleNames,omitempty"`
+	Status     int      `json:"status,omitempty"`
+	Username   string   `json:"username,omitempty"`
 }
 
 type UserProfileReq struct {
@@ -339,7 +340,7 @@ type UserReq struct {
 }
 
 type UserResp struct {
-	Code *string     `json:"code,omitempty"`
+	Code string      `json:"code,omitempty"`
 	Data *UserInfoVO `json:"data,omitempty"`
-	Msg  *string     `json:"msg,omitempty"`
+	Msg  string      `json:"msg,omitempty"`
 }

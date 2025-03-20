@@ -25,23 +25,23 @@ func NewRefreshTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Refr
 	}
 }
 
-func (l *RefreshTokenLogic) RefreshToken(req *types.RefreshTokenReq) (resp *types.AuthResp, err error) {
+func (l *RefreshTokenLogic) RefreshToken(req *types.RefreshTokenReq) (resp *types.NormalResp, err error) {
 
 	claims, err := getTokenClaims(req.Authorization, l.svcCtx.Config)
 	_, ok := l.svcCtx.TokenCache.Get(claims.Username)
 	if ok {
-		return &types.AuthResp{
+		return &types.NormalResp{
 			Code: "401",
 			Msg:  "user logout",
 		}, nil
 	}
 	l.svcCtx.TokenCache.Set(req.RefreshToken, req.RefreshToken, 24*time.Hour)
 
-	accessToken, refreshToken, err := utils.GenerateToken(l.svcCtx.Config, claims.Username, claims.Password)
+	accessToken, refreshToken, err := utils.GenerateToken(l.svcCtx.Config, claims.UserID, claims.Username, claims.Password)
 	if err != nil {
 		return nil, err
 	}
-	resp = &types.AuthResp{
+	resp = &types.NormalResp{
 		Code: "200",
 		Data: &types.AuthenticationToken{
 			AccessToken:  accessToken,

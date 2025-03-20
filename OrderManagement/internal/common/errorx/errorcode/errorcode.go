@@ -10,6 +10,7 @@ const (
 	ErrStateInvalid        = 1000003 // 订单状态无效
 
 	ErrUserOrPasswordNotFound = 1010005
+	ErrMaxDeleteUser          = 1010006
 
 	ErrDBError = 500001
 )

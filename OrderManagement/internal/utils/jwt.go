@@ -2,18 +2,20 @@ package utils
 
 import (
 	"OrderManagement/OrderManagement/internal/config"
+	"strings"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
 type JwtClaims struct {
+	UserID   int64  `json:"userId"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 	jwt.StandardClaims
 }
 
-func GenerateToken(c config.Config, username, password string) (string, string, error) {
+func GenerateToken(c config.Config, userId int64, username, password string) (string, string, error) {
 	var jwtSecret = []byte(c.Auth.AccessSecret)
 
 	nowTime := time.Now()
@@ -21,6 +23,7 @@ func GenerateToken(c config.Config, username, password string) (string, string, 
 	refreshExpireTime := nowTime.Add(time.Duration(c.Auth.RefreshExpire))
 
 	accessClaims := JwtClaims{
+		userId,
 		username,
 		password,
 		jwt.StandardClaims{
@@ -37,6 +40,7 @@ func GenerateToken(c config.Config, username, password string) (string, string, 
 	}
 
 	refreshClaims := JwtClaims{
+		userId,
 		username,
 		password,
 		jwt.StandardClaims{
@@ -66,4 +70,15 @@ func ParseToken(c config.Config, token string) (*JwtClaims, error) {
 	}
 
 	return nil, err
+}
+
+func GetUserProfile(authorization string, c config.Config) (string, int64, error) {
+	token := strings.Replace(authorization, "Bearer ", "", 1)
+
+	claims, err := ParseToken(c, token)
+	if err != nil {
+		return "", 0, err
+	}
+
+	return claims.Username, claims.UserID, nil
 }

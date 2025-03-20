@@ -44,7 +44,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	}
 
 	if users[0].Password == req.Password {
-		accessToken, refreshToken, err := utils.GenerateToken(l.svcCtx.Config, users[0].UserName, users[0].Password)
+		accessToken, refreshToken, err := utils.GenerateToken(l.svcCtx.Config, users[0].ID, users[0].UserName, users[0].Password)
 		if err != nil {
 			return nil, err
 		}

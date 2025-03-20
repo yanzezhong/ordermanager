@@ -15,7 +15,7 @@ import (
 
 type userModel interface {
 	Insert(ctx context.Context, data *User) error
-	FindOne(ctx context.Context, id string) (*User, error)
+	FindOne(ctx context.Context, id int64) (*User, error)
 	Update(ctx context.Context, data *User) (*mongo.UpdateResult, error)
 	Delete(ctx context.Context, id string) (int64, error)
 }
@@ -42,15 +42,12 @@ func (m *defaultUserModel) Insert(ctx context.Context, data *User) error {
 	return err
 }
 
-func (m *defaultUserModel) FindOne(ctx context.Context, id string) (*User, error) {
-	oid, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, ErrInvalidUserId
-	}
+func (m *defaultUserModel) FindOne(ctx context.Context, id int64) (*User, error) {
+	
 
 	var data User
 
-	err = m.conn.FindOne(ctx, &data, bson.M{"_id": oid})
+	err := m.conn.FindOne(ctx, &data, bson.M{"_id": id})
 	switch err {
 	case nil:
 		return &data, nil

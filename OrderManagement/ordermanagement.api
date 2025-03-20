@@ -209,7 +209,7 @@ type (
 		// 刷新令牌
 		RefreshToken string `json:"refreshToken,omitempty"`
 		// 令牌类型
-		Token string `json:"token,omitempty"`
+		TokenType string `json:"tokenType,omitempty"`
 	}
 	LoginReq {
 		// 密码
@@ -244,105 +244,107 @@ type (
 	}
 	// ResultUserInfoVO
 	UserResp {
-		Code *string     `json:"code,omitempty"`
+		Code string      `json:"code,omitempty"`
 		Data *UserInfoVO `json:"data,omitempty"`
-		Msg  *string     `json:"msg,omitempty"`
+		Msg  string      `json:"msg,omitempty"`
 	}
 	// UserInfoVO, 当前登录用户视图对象
 	UserInfoVO {
-		// 头像地址     
-		Avatar *string `json:"avatar,omitempty"`
-		// 用户昵称     
-		Nickname *string `json:"nickname,omitempty"`
-		// 用户权限标识集合 
+		// 头像地址
+		Avatar string `json:"avatar,omitempty"`
+		// 用户昵称
+		Nickname string `json:"nickname,omitempty"`
+		// 用户权限标识集合
 		Perms []string `json:"perms,omitempty"`
-		// 用户角色编码集合 
+		// 用户角色编码集合
 		Roles []string `json:"roles,omitempty"`
-		// 用户ID     
-		UserID *int64 `json:"userId,omitempty"`
-		// 用户名      
-		Username *string `json:"username,omitempty"`
+		// 用户ID
+		UserID int64 `json:"userId,omitempty"`
+		// 用户名
+		Username string `json:"username,omitempty"`
 	}
 	UserListReq {
-		// 创建时间范围              
+		// 创建时间范围
 		CreateTime *string `json:"createTime,omitempty"`
-		// 部门ID                
+		// 部门ID
 		DeptID *string `json:"deptId,omitempty"`
 		// 排序方式（正序:ASC；反序:DESC）
 		Direction *string `json:"direction,omitempty"`
-		// 排序的字段               
+		// 排序的字段
 		Field *string `json:"field,omitempty"`
-		// 关键字(用户名/昵称/手机号)     
+		// 关键字(用户名/昵称/手机号)
 		Keywords *string `json:"keywords,omitempty"`
-		// 页码                  
+		// 页码
 		PageNum string `json:"pageNum"`
-		// 每页记录数               
+		// 每页记录数
 		PageSize string `json:"pageSize"`
-		// 角色ID                
+		// 角色ID
 		RoleIDS *string `json:"roleIds,omitempty"`
-		// 用户状态                
+		// 用户状态
 		Status *string `json:"status,omitempty"`
 	}
 	// PageResultUserPageVO
 	UserListResp {
-		Code *string         `json:"code,omitempty"`
+		Code string          `json:"code,omitempty"`
 		Data *DataUserPageVO `json:"data,omitempty"`
-		Msg  *string         `json:"msg,omitempty"`
+		Msg  string          `json:"msg,omitempty"`
 	}
 	// DataUserPageVO
 	DataUserPageVO {
 		List  []UserPageVO `json:"list,omitempty"`
-		Total *int64       `json:"total,omitempty"`
+		Total int64        `json:"total,omitempty"`
 	}
 	// UserPageVO, 用户分页对象
 	UserPageVO {
-		// 用户头像地址            
-		Avatar *string `json:"avatar,omitempty"`
-		// 创建时间              
-		CreateTime *string `json:"createTime,omitempty"`
-		// 部门名称              
-		DeptName *string `json:"deptName,omitempty"`
-		// 用户邮箱              
-		Email *string `json:"email,omitempty"`
-		// 性别                
-		Gender *int64 `json:"gender,omitempty"`
-		// 用户ID              
-		ID *int64 `json:"id,omitempty"`
-		// 手机号               
-		Mobile *string `json:"mobile,omitempty"`
-		// 用户昵称              
-		Nickname *string `json:"nickname,omitempty"`
+		// 用户头像地址
+		Avatar string `json:"avatar,omitempty"`
+		// 创建时间
+		CreateTime int64 `json:"createTime,omitempty"`
+		// 部门名称
+		DeptName string `json:"deptName,omitempty"`
+		// 用户邮箱
+		Email string `json:"email,omitempty"`
+		// 性别
+		Gender int64 `json:"gender,omitempty"`
+		// 用户ID
+		ID int64 `json:"id,omitempty"`
+		// 手机号
+		Mobile string `json:"mobile,omitempty"`
+		// 用户昵称
+		Nickname string `json:"nickname,omitempty"`
 		// 角色名称，多个使用英文逗号(,)分割
-		RoleNames *string `json:"roleNames,omitempty"`
-		// 用户状态(1:启用;0:禁用)   
-		Status *int64 `json:"status,omitempty"`
-		// 用户名               
-		Username *string `json:"username,omitempty"`
+		RoleNames []string `json:"roleNames,omitempty"`
+		// 用户状态(1:启用;0:禁用)
+		Status int `json:"status,omitempty"`
+		// 用户名
+		Username string `json:"username,omitempty"`
 	}
 	// UserForm, 用户表单对象
 	AddUserReq {
-		// 用户头像           
-		Avatar *string `json:"avatar,omitempty"`
-		// 部门ID           
-		DeptID *int64 `json:"deptId,omitempty"`
-		// 邮箱             
-		Email *string `json:"email,omitempty"`
-		// 性别             
-		Gender *int64 `json:"gender,omitempty"`
-		// 用户ID           
+		// 用户头像
+		Avatar string `json:"avatar,omitempty"`
+		// 部门ID
+		DeptID int64 `json:"deptId,omitempty"`
+		// 邮箱
+		Email string `json:"email,omitempty"`
+		// 性别
+		Gender int64 `json:"gender,omitempty"`
+		// 用户ID
 		ID *int64 `json:"id,omitempty"`
-		// 手机号码           
-		Mobile *string `json:"mobile,omitempty"`
-		// 昵称             
+		// 手机号码
+		Mobile string `json:"mobile,omitempty"`
+		// 昵称
 		Nickname string `json:"nickname"`
-		// 微信openId       
-		OpenID *string `json:"openId,omitempty"`
-		// 角色ID集合         
-		RoleIDS []int64 `json:"roleIds"`
+		// 微信openId
+		OpenID string `json:"openId,omitempty"`
+		// 角色ID集合
+		RoleIDS []string `json:"roleIds"`
 		// 用户状态(1:正常;0:禁用)
-		Status *int64 `json:"status,omitempty"`
-		// 用户名            
+		Status int64 `json:"status,omitempty"`
+		// 用户名
 		Username string `json:"username"`
+		// 密码
+		Password string `json:"password"`
 	}
 	UserFormReq {
 		// 用户ID
@@ -356,27 +358,27 @@ type (
 	}
 	// UserForm, 用户表单对象
 	UserForm {
-		// 用户头像           
+		// 用户头像
 		Avatar *string `json:"avatar,omitempty"`
-		// 部门ID           
+		// 部门ID
 		DeptID *int64 `json:"deptId,omitempty"`
-		// 邮箱             
+		// 邮箱
 		Email *string `json:"email,omitempty"`
-		// 性别             
+		// 性别
 		Gender *int64 `json:"gender,omitempty"`
-		// 用户ID           
+		// 用户ID
 		ID *int64 `json:"id,omitempty"`
-		// 手机号码           
+		// 手机号码
 		Mobile *string `json:"mobile,omitempty"`
-		// 昵称             
+		// 昵称
 		Nickname string `json:"nickname"`
-		// 微信openId       
+		// 微信openId
 		OpenID *string `json:"openId,omitempty"`
-		// 角色ID集合         
+		// 角色ID集合
 		RoleIDS []int64 `json:"roleIds"`
 		// 用户状态(1:正常;0:禁用)
 		Status *int64 `json:"status,omitempty"`
-		// 用户名            
+		// 用户名
 		Username string `json:"username"`
 	}
 	UpdateUserReq {

@@ -3,6 +3,8 @@ module OrderManagement
 go 1.23.4
 
 require (
+	github.com/mojocn/base64Captcha v1.3.8
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.10.0
 	github.com/zeromicro/go-zero v1.7.6
@@ -11,8 +13,6 @@ require (
 
 require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
-	github.com/mojocn/base64Captcha v1.3.8 // indirect
-	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	golang.org/x/image v0.25.0 // indirect
 )
 

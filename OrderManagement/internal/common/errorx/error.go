@@ -9,4 +9,7 @@ var (
 	OrderNotFoundError = NewCodeError(errorcode.ErrOrderNotFound, "未找到当前订单")
 
 	UserOrPasswordNotFound = NewCodeError(errorcode.ErrUserOrPasswordNotFound, "用户名或密码错误")
+
+	// "最多只能删除5个用户"
+	MaxDeleteUserError = NewCodeError(errorcode.ErrMaxDeleteUser, "最多只能删除5个用户")
 )
