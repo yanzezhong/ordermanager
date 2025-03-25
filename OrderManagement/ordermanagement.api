@@ -10,49 +10,43 @@ type Response {
 
 type (
 	PostProduct {
-		Name          string `json:"name,omitempty"`          // 商品名称
-		Price         Price  `json:"price,omitempty"`         // 商品价格
+		Name          string `json:"name,omitempty"` // 商品名称
+		Price         Price  `json:"price,omitempty"` // 商品价格
 		Specification int    `json:"specification,omitempty"` // 规格
-		IsActive      bool   `json:"isActive,omitempty"`      // 是否生效
-		Image         string `json:"image,omitempty"`         // 图片
-		NickName      string `json:"nickName,omitempty"`      // 别名
-		BarCode       string `json:"barCode,omitempty"`       //条码
+		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
+		Image         string `json:"image,omitempty"` // 图片
+		NickName      string `json:"nickName,omitempty"` // 别名
+		BarCode       string `json:"barCode,omitempty"` //条码
 	}
-
 	ListProductReq {
 		ProductId string `json:"productId,optional"`
-		Name      string `json:"name,optional"`     // 商品名称
+		Name      string `json:"name,optional"` // 商品名称
 		IsActive  bool   `json:"isActive,optional"` // 是否生效
 		NickName  string `json:"nickName,optional"` // 别名
-		BarCode   string `json:"barCode,optional"`  //条码
+		BarCode   string `json:"barCode,optional"` //条码
 	}
-
 	ListProductResp {
 		Items []*Product `json:"items"`
 		Count int        `json:"count"`
 	}
-
 	Product {
 		ProductId     string `json:"productId"`
 		Name          string `json:"name,omitempty"` // 商品名称
 		Price         Price  `json:"price,omitempty"`
 		Specification int    `json:"specification,omitempty"` // 规格
-		IsActive      bool   `json:"isActive,omitempty"`      // 是否生效
-		Image         string `json:"image,omitempty"`         // 图片
-		NickName      string `json:"nickName,omitempty"`      // 别名
-		BarCode       string `json:"barCode,omitempty"`       //条码
-
+		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
+		Image         string `json:"image,omitempty"` // 图片
+		NickName      string `json:"nickName,omitempty"` // 别名
+		BarCode       string `json:"barCode,omitempty"` //条码
 	}
-
 	// Price 价格应该写在订单上,该Price只用作展示
 	Price {
-		Terminal  float64 `json:"terminal,omitempty"`  // 终端零售价
+		Terminal  float64 `json:"terminal,omitempty"` // 终端零售价
 		WholeSale float64 `json:"wholesale,omitempty"` // 批发零售价
-		Cost      float64 `json:"cost,omitempty"`      // 进价
-		SRP       float64 `json:"srp,omitempty"`       // 建议零售价 Suggested Retail Price
-		Warning   float64 `json:"warning,omitempty"`   // 报警价格
+		Cost      float64 `json:"cost,omitempty"` // 进价
+		SRP       float64 `json:"srp,omitempty"` // 建议零售价 Suggested Retail Price
+		Warning   float64 `json:"warning,omitempty"` // 报警价格
 	}
-
 	PostOrder {
 		Products []*Products `json:"products,optional"`
 		// 商店Id
@@ -66,7 +60,6 @@ type (
 		// 支付状态
 		Payment int `json:"payment"`
 	}
-
 	PutOrderReq {
 		ProductId string `json:"productId"`
 		// 货品列表
@@ -78,7 +71,6 @@ type (
 		// 支付状态
 		Payment int `json:"payment,optional"`
 	}
-
 	ListOrderRequest {
 		State     int    `form:"state"`
 		ShopId    string `form:"shopId"`
@@ -86,12 +78,10 @@ type (
 		Page      int    `form:"page"`
 		Size      int    `form:"size"`
 	}
-
 	ListOrderResp {
 		Items []*Order `json:"items"`
 		Count int64    `json:"count"`
 	}
-
 	Order {
 		OrderId  string      `json:"orderId"`
 		Products []*Products `json:"products"`
@@ -114,7 +104,6 @@ type (
 		// 创建时间
 		CreateTime int64 `json:"createTime"`
 	}
-
 	Products {
 		// 商品ID
 		ProductId string `json:"productId"`
@@ -125,36 +114,414 @@ type (
 		// 商品数量
 		Count int `json:"count"`
 	}
+	EditDeptReq {
+		DeptID int64 `path:"deptId"`
+		// 部门编号 
+		Code string `json:"code"`
+		// 部门ID 
+		ID int64 `json:"id"`
+		// 部门名称 
+		Name string `json:"name"`
+		// 父部门ID
+		ParentID int64 `json:"parentId"`
+		// 排序(数字越小排名越靠前)
+		Sort int64 `json:"sort"`
+		// 状态(1:启用;0:禁用)
+		Status int64 `json:"status"`
+	}
+	ListDeptReq {
+		// 关键字(部门名称)
+		Keywords string `json:"keywords,omitempty"`
+		// 状态(1->正常；0->禁用)
+		Status string `json:"status"`
+	}
+	// ResultListDeptVO
+	ListDeptVOResp {
+		Code string   `json:"code,omitempty"`
+		Data []DeptVO `json:"data,omitempty"`
+		Msg  string   `json:"msg,omitempty"`
+	}
+	// DeptVO，部门视图对象
+	DeptVO {
+		// 子部门   
+		Children []DeptVO `json:"children,omitempty"`
+		// 部门编号  
+		Code *string `json:"code,omitempty"`
+		// 创建时间  
+		CreateTime *string `json:"createTime,omitempty"`
+		// 部门ID  
+		ID *int64 `json:"id,omitempty"`
+		// 部门名称  
+		Name *string `json:"name,omitempty"`
+		// 父部门ID 
+		ParentID *int64 `json:"parentId,omitempty"`
+		// 排序    
+		Sort *int64 `json:"sort,omitempty"`
+		// 状态(1:启用；0:禁用)
+		Status *int64 `json:"status,omitempty"`
+		// 修改时间  
+		UpdateTime *string `json:"updateTime,omitempty"`
+	}
+	// DeptForm，部门表单对象
+	AddDeptReq {
+		// 部门编号 
+		Code *string `json:"code,omitempty"`
+		// 部门ID 
+		ID *int64 `json:"id,omitempty"`
+		// 部门名称 
+		Name *string `json:"name,omitempty"`
+		// 父部门ID
+		ParentID int64 `json:"parentId"`
+		// 排序(数字越小排名越靠前)
+		Sort *int64 `json:"sort,omitempty"`
+		// 状态(1:启用;0:禁用)
+		Status *int64 `json:"status,omitempty"`
+	}
+	ListDeptFromReq {
+		// 部门ID
+		DeptID int64 `path:"deptId"`
+	}
+	// ResultDeptForm
+	ListDeptFromResp {
+		Code string    `json:"code,omitempty"`
+		Data *DeptForm `json:"data,omitempty"`
+		Msg  string    `json:"msg,omitempty"`
+	}
+	// DeptForm，部门表单对象
+	DeptForm {
+		// 部门编号 
+		Code string `json:"code,omitempty"`
+		// 部门ID 
+		ID int64 `json:"id,omitempty"`
+		// 部门名称 
+		Name string `json:"name,omitempty"`
+		// 父部门ID
+		ParentID int64 `json:"parentId"`
+		// 排序(数字越小排名越靠前)
+		Sort int64 `json:"sort,omitempty"`
+		// 状态(1:启用;0:禁用)
+		Status int64 `json:"status,omitempty"`
+	}
+	ListDeptOptionsReq {
+		Authorization string `header:"Authorization,omitempty"`
+	}
+	// ResultListOptionLong
+	ListDeptOptionsResp {
+		Code string       `json:"code,omitempty"`
+		Data []OptionLong `json:"data,omitempty"`
+		Msg  string       `json:"msg,omitempty"`
+	}
+	// OptionLong，下拉选项对象
+	OptionLong {
+		// 子选项列表
+		Children []OptionLong `json:"children,omitempty"`
+		// 选项的标签
+		Label *string `json:"label,omitempty"`
+		// 标签类型
+		Tag *string `json:"tag,omitempty"`
+		// 选项的值
+		Value *int64 `json:"value,omitempty"`
+	}
+	DeleteDeptReq {
+		// 部门ID，多个以英文逗号(,)分割
+		IDS string `path:"ids"`
+	}
+	CommonResponse {
+		Code string      `json:"code"`
+		Data interface{} `json:"data,omitempty"`
+		Msg  string      `json:"msg"`
+	}
+	UpdateMenuReq {
+		Id       int64  `json:"id,omitempty"`
+		ParentId int64  `json:"parentId,omitempty"`
+		Name     string `json:"name,omitempty"`
+string `json:",omitempty"`
+		RouteName  string     `json:"routeName,omitempty"`
+		RoutePath  string     `json:"routePath,omitempty"`
+		Component  string     `json:"component,omitempty"`
+		Perm       string     `json:"perm,omitempty"`
+		Visible    int32      `json:"visible,omitempty"`
+		Sort       int32      `json:"sort,omitempty"`
+		Icon       string     `json:"icon,omitempty"`
+		Redirect   string     `json:"redirect,omitempty"`
+		KeepAlive  int32      `json:"keepAlive,omitempty"`
+		AlwaysShow int32      `json:"alwaysShow,omitempty"`
+		Params     []KeyValue `json:"params,omitempty"`
+	}
+	// 定义路由参数的键值对
+	KeyValue {
+		Key   string `json:"key,omitempty"`
+		Value string `json:"value,omitempty"`
+	}
+	DeleteMenuReq {
+		// 菜单ID，多个以英文(,)分割
+		id string `path:"id"`
+		// 认证信息，可选，默认值: {{token}} {{accessToken}}
+		Authorization string `header:"Authorization"`
+	}
+	MenuListReq {
+		// 搜索关键词，用于模糊搜索菜单名称等信息
+		keywords string `query:"keywords"`
+		// 菜单状态，用于筛选特定状态的菜单
+		status string `query:"status"`
+		// 认证信息，可选，默认值: {{token}} {{accessToken}}
+		Authorization string `header:"Authorization"`
+	}
+	MenuVO {
+		// 菜单ID
+		id int64 `json:"id"`
+		// 父菜单ID
+		parentId int64 `json:"parentId"`
+		// 菜单名称
+		name string `json:"name"`
+// 菜单类型，取值为NULL、MENU、CATALOG、EXTLINK、BUTTON
+string `json:""`
+		// 路由名称
+		routeName string `json:"routeName"`
+		// 路由路径
+		routePath string `json:"routePath"`
+		// 组件路径
+		component string `json:"component"`
+		// 菜单排序，数字越小排名越靠前
+		sort int32 `json:"sort"`
+		// 菜单是否可见，1表示显示，0表示隐藏
+		visible int32 `json:"visible"`
+		// ICON
+		icon string `json:"icon"`
+		// 跳转路径
+		redirect string `json:"redirect"`
+		// 按钮权限标识
+		perm string `json:"perm"`
+		// 子菜单列表
+		children []MenuVO `json:"children"`
+	}
+	// 菜单列表响应结构体
+	MenuListResp {
+		// 响应码，可选
+		code string `json:"code"`
+		// 菜单数据列表，可选
+		data []MenuVO `json:"data"`
+		// 响应消息，可选
+		msg string `json:"msg"`
+	}
+	// 新增菜单请求结构体
+	CreateMenuReq {
+		// 认证信息，默认值: {{token}} {{accessToken}}
+		Authorization string `header:"Authorization"`
+		// 菜单ID
+		id int64 `json:"id"`
+		// 父菜单ID
+		parentId int64 `json:"parentId"`
+		// 菜单名称
+		name string `json:"name"`
+// 菜单类型，取值为NULL、MENU、CATALOG、EXTLINK、BUTTON
+string `json:""`
+		// 路由名称
+		routeName string `json:"routeName"`
+		// 路由路径
+		routePath string `json:"routePath"`
+		// 组件路径（vue页面完整路径，省略.vue后缀）
+		component string `json:"component"`
+		// 权限标识
+		perm string `json:"perm"`
+		// 显示状态，1表示显示，0表示隐藏
+		visible int32 `json:"visible"`
+		// 排序，数字越小排名越靠前
+		sort int32 `json:"sort"`
+		// 菜单图标
+		icon string `json:"icon"`
+		// 跳转路径
+		redirect string `json:"redirect"`
+		// 【菜单】是否开启页面缓存
+		keepAlive int32 `json:"keepAlive"`
+		// 【目录】只有一个子路由是否始终显示
+		alwaysShow int32 `json:"alwaysShow"`
+		// 路由参数
+		params []KeyValue `json:"params"`
+	}
+	// 修改菜单显示状态的请求结构体
+	UpdateMenuVisibilityReq {
+		// 菜单ID，路径参数
+		menuId int `path:"menuId"`
+		// 显示状态，1表示显示，0表示隐藏，查询参数
+		visible int `query:"visible"`
+		// 认证信息，默认值: {{token}} {{accessToken}}
+		Authorization string `header:"Authorization"`
+	}
+	// 菜单表单对象结构体
+	MenuForm {
+		id       int64  `json:"id"`
+		parentId int64  `json:"parentId"`
+		name     string `json:"name"`
+string `json:""`
+		routeName  string     `json:"routeName"`
+		routePath  string     `json:"routePath"`
+		component  string     `json:"component"`
+		perm       string     `json:"perm"`
+		visible    int32      `json:"visible"`
+		sort       int32      `json:"sort"`
+		icon       string     `json:"icon"`
+		redirect   string     `json:"redirect"`
+		keepAlive  int32      `json:"keepAlive"`
+		alwaysShow int32      `json:"alwaysShow"`
+		params     []KeyValue `json:"params"`
+	}
+	// 获取菜单表单数据的请求结构体
+	GetMenuFormDataReq {
+		id            int    `path:"id"`
+		Authorization string `header:"Authorization"`
+	}
+	// 获取菜单表单数据的响应结构体
+	GetMenuFormDataResp {
+		code string   `json:"code"`
+		data MenuForm `json:"data"`
+		msg  string   `json:"msg"`
+	}
+	// 路由属性类型结构体
+	Meta {
+		title      string            `json:"title"`
+		icon       string            `json:"icon"`
+		hidden     bool              `json:"hidden"`
+		keepAlive  bool              `json:"keepAlive"`
+		alwaysShow bool              `json:"alwaysShow"`
+		params     map[string]string `json:"params"`
+	}
+	// 路由信息结构体
+	RouteVO {
+		path      string    `json:"path"`
+		component string    `json:"component"`
+		redirect  string    `json:"redirect"`
+		name      string    `json:"name"`
+		meta      Meta      `json:"meta"`
+		children  []RouteVO `json:"children"`
+	}
+	// 获取菜单路由列表的请求结构体
+	GetMenuRoutesReq {
+		Authorization string `header:"Authorization"`
+	}
+	// 获取菜单路由列表的响应结构体
+	GetMenuRoutesResp {
+		code string    `json:"code"`
+		data []RouteVO `json:"data"`
+		msg  string    `json:"msg"`
+	}
+	// 获取菜单详情的请求结构体
+	GetMenuDetailReq {
+		id            int    `path:"id"`
+		Authorization string `header:"Authorization"`
+	}
+	// 获取菜单详情的响应结构体
+	GetMenuDetailResp {
+		code string                 `json:"code"`
+		data map[string]interface{} `json:"data"`
+		msg  string                 `json:"msg"`
+	}
+	// 获取菜单下拉列表请求结构体
+	GetMenuOptionsReq {
+		onlyParent    bool   `query:"onlyParent"`
+		Authorization string `header:"Authorization"`
+	}
+	// 获取菜单下拉列表响应结构体
+	GetMenuOptionsResp {
+		code string       `json:"code"`
+		data []OptionLong `json:"data"`
+		msg  string       `json:"msg"`
+	}
 )
 
 @server (
-	group: order
+	group:  order
 	prefix: /v1
 )
-
 service Management {
 	@handler AddOrder
-	post /order(PostOrder)
+	post /order (PostOrder)
 
 	@handler ListOrder
-	get /order(ListOrderRequest) returns (ListOrderResp)
+	get /order (ListOrderRequest) returns (ListOrderResp)
 
 	@handler UpdateOrder
-	put /order(PutOrderReq)
+	put /order (PutOrderReq)
 }
 
 @server (
-	group: product
+	group:  product
 	prefix: /v1
 )
-
 service Management {
 	@handler AddProduct
-	post /product(PostProduct)
+	post /product (PostProduct)
 
 	@handler UpdateProduct
-	put /product(PostProduct)
+	put /product (PostProduct)
 
 	@handler ListProduct
-	get /product(ListProductReq) returns (ListProductResp)
+	get /product (ListProductReq) returns (ListProductResp)
 }
+
+@server (
+	group:  dept
+	prefix: /v1
+)
+service Management {
+	@handler EditDept
+	put /dept/:deptId (EditDeptReq) returns (CommonResponse)
+
+	@handler ListDept
+	get /dept (ListDeptReq) returns (ListDeptVOResp)
+
+	@handler AddDept
+	post /dept (AddDeptReq) returns (CommonResponse)
+
+	@handler ListDeptFrom
+	get /dept/:deptId/form (ListDeptFromReq) returns (ListDeptFromResp)
+
+	@handler ListDeptOptions
+	get /dept/options (ListDeptOptionsReq) returns (ListDeptOptionsResp)
+
+	@handler DeleteDeptReq
+	delete /dept/:ids (ListDeptOptionsReq) returns (CommonResponse)
+}
+
+@server (
+	group:  menu
+	prefix: /v1
+)
+service Management {
+	@handler UpdateMenuReq
+	// 更新
+	put /api/v1/menus/:Id (UpdateMenuReq) returns (CommonResponse)
+
+	// 删除菜单
+	@handler deleteMenu
+	delete /api/v1/menus/:id (DeleteMenuReq) returns (CommonResponse)
+
+	// 获取菜单列表
+	@handler getMenuList
+	get /api/v1/menus (MenuListReq) returns (MenuListResp)
+
+	// 新增菜单
+	@handler createMenu
+	post /api/v1/menus (CreateMenuReq) returns (CommonResponse)
+
+	// 修改菜单显示状态
+	@handler updateMenuVisibility
+	patch /api/v1/menus/:menuId (UpdateMenuVisibilityReq) returns (CommonResponse)
+
+	// 获取菜单表单数据
+	@handler getMenuFormData
+	get /api/v1/menus/:id/form (GetMenuFormDataReq) returns (GetMenuFormDataResp)
+
+	// 获取菜单路由列表
+	@handler getMenuRoutes
+	get /api/v1/menus/routes (GetMenuRoutesReq) returns (GetMenuRoutesResp)
+
+	// 获取菜单详情
+	@handler getMenuDetail
+	get /api/v1/menus/:id (GetMenuDetailReq) returns (GetMenuDetailResp)
+
+	// 获取菜单下拉列表
+	@handler getMenuOptions
+	get /api/v1/menus/options (GetMenuOptionsReq) returns (GetMenuOptionsResp)
+}
+
