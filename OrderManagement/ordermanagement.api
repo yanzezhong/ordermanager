@@ -116,11 +116,11 @@ type (
 	}
 	EditDeptReq {
 		DeptID int64 `path:"deptId"`
-		// 部门编号 
+		// 部门编号
 		Code string `json:"code"`
-		// 部门ID 
+		// 部门ID
 		ID int64 `json:"id"`
-		// 部门名称 
+		// 部门名称
 		Name string `json:"name"`
 		// 父部门ID
 		ParentID int64 `json:"parentId"`
@@ -143,39 +143,39 @@ type (
 	}
 	// DeptVO，部门视图对象
 	DeptVO {
-		// 子部门   
+		// 子部门
 		Children []DeptVO `json:"children,omitempty"`
-		// 部门编号  
+		// 部门编号
 		Code *string `json:"code,omitempty"`
-		// 创建时间  
+		// 创建时间
 		CreateTime *string `json:"createTime,omitempty"`
-		// 部门ID  
+		// 部门ID
 		ID *int64 `json:"id,omitempty"`
-		// 部门名称  
+		// 部门名称
 		Name *string `json:"name,omitempty"`
-		// 父部门ID 
+		// 父部门ID
 		ParentID *int64 `json:"parentId,omitempty"`
-		// 排序    
+		// 排序
 		Sort *int64 `json:"sort,omitempty"`
 		// 状态(1:启用；0:禁用)
 		Status *int64 `json:"status,omitempty"`
-		// 修改时间  
+		// 修改时间
 		UpdateTime *string `json:"updateTime,omitempty"`
 	}
 	// DeptForm，部门表单对象
 	AddDeptReq {
-		// 部门编号 
-		Code *string `json:"code,omitempty"`
-		// 部门ID 
-		ID *int64 `json:"id,omitempty"`
-		// 部门名称 
-		Name *string `json:"name,omitempty"`
+		// 部门编号
+		Code string `json:"code,omitempty"`
+		// 部门ID
+		ID int64 `json:"id,omitempty"`
+		// 部门名称
+		Name string `json:"name,omitempty"`
 		// 父部门ID
 		ParentID int64 `json:"parentId"`
 		// 排序(数字越小排名越靠前)
-		Sort *int64 `json:"sort,omitempty"`
+		Sort int64 `json:"sort,omitempty"`
 		// 状态(1:启用;0:禁用)
-		Status *int64 `json:"status,omitempty"`
+		Status int64 `json:"status,omitempty"`
 	}
 	ListDeptFromReq {
 		// 部门ID
@@ -189,11 +189,11 @@ type (
 	}
 	// DeptForm，部门表单对象
 	DeptForm {
-		// 部门编号 
+		// 部门编号
 		Code string `json:"code,omitempty"`
-		// 部门ID 
+		// 部门ID
 		ID int64 `json:"id,omitempty"`
-		// 部门名称 
+		// 部门名称
 		Name string `json:"name,omitempty"`
 		// 父部门ID
 		ParentID int64 `json:"parentId"`
@@ -232,10 +232,9 @@ type (
 		Msg  string      `json:"msg"`
 	}
 	UpdateMenuReq {
-		Id       int64  `json:"id,omitempty"`
-		ParentId int64  `json:"parentId,omitempty"`
-		Name     string `json:"name,omitempty"`
-string `json:",omitempty"`
+		Id         int64      `json:"id,omitempty"`
+		ParentId   int64      `json:"parentId,omitempty"`
+		Name       string     `json:"name,omitempty"`
 		RouteName  string     `json:"routeName,omitempty"`
 		RoutePath  string     `json:"routePath,omitempty"`
 		Component  string     `json:"component,omitempty"`
@@ -274,8 +273,7 @@ string `json:",omitempty"`
 		parentId int64 `json:"parentId"`
 		// 菜单名称
 		name string `json:"name"`
-// 菜单类型，取值为NULL、MENU、CATALOG、EXTLINK、BUTTON
-string `json:""`
+		// 菜单类型，取值为NULL、MENU、CATALOG、EXTLINK、BUTTON
 		// 路由名称
 		routeName string `json:"routeName"`
 		// 路由路径
@@ -314,8 +312,6 @@ string `json:""`
 		parentId int64 `json:"parentId"`
 		// 菜单名称
 		name string `json:"name"`
-// 菜单类型，取值为NULL、MENU、CATALOG、EXTLINK、BUTTON
-string `json:""`
 		// 路由名称
 		routeName string `json:"routeName"`
 		// 路由路径
@@ -350,10 +346,9 @@ string `json:""`
 	}
 	// 菜单表单对象结构体
 	MenuForm {
-		id       int64  `json:"id"`
-		parentId int64  `json:"parentId"`
-		name     string `json:"name"`
-string `json:""`
+		id         int64      `json:"id"`
+		parentId   int64      `json:"parentId"`
+		name       string     `json:"name"`
 		routeName  string     `json:"routeName"`
 		routePath  string     `json:"routePath"`
 		component  string     `json:"component"`
@@ -480,7 +475,7 @@ service Management {
 	get /dept/options (ListDeptOptionsReq) returns (ListDeptOptionsResp)
 
 	@handler DeleteDeptReq
-	delete /dept/:ids (ListDeptOptionsReq) returns (CommonResponse)
+	delete /dept/:ids (DeleteDeptReq) returns (CommonResponse)
 }
 
 @server (

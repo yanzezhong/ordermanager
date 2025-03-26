@@ -2,7 +2,9 @@ package dept
 
 import (
 	"context"
+	"strings"
 
+	"OrderManagement/OrderManagement/internal/common/errorx"
 	"OrderManagement/OrderManagement/internal/svc"
 	"OrderManagement/OrderManagement/internal/types"
 
@@ -23,8 +25,21 @@ func NewDeleteDeptReqLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 	}
 }
 
-func (l *DeleteDeptReqLogic) DeleteDeptReq(req *types.ListDeptOptionsReq) (resp *types.CommonResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *DeleteDeptReqLogic) DeleteDeptReq(req *types.DeleteDeptReq) (resp *types.CommonResponse, err error) {
+
+	ids := strings.Split(req.IDS, ",")
+
+	if len(ids) > 10 {
+		//
+		return nil, errorx.DeleteCountTooManyError
+	}
+	for _, v := range ids {
+		_, err = l.svcCtx.DeptModel.Delete(l.ctx, v)
+		if err != nil {
+			logx.Error(err)
+			return nil, err
+		}
+	}
 
 	return
 }

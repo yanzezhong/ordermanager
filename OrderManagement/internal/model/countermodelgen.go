@@ -13,25 +13,24 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type deptModel interface {
-	Insert(ctx context.Context, data *Dept) error
-	FindOne(ctx context.Context, id string) (*Dept, error)
-	Update(ctx context.Context, data *Dept) (*mongo.UpdateResult, error)
+type counterModel interface {
+	Insert(ctx context.Context, data *Counter) error
+	FindOne(ctx context.Context, id string) (*Counter, error)
+	Update(ctx context.Context, data *Counter) (*mongo.UpdateResult, error)
 	Delete(ctx context.Context, id string) (int64, error)
 }
 
-type defaultDeptModel struct {
+type defaultCounterModel struct {
 	conn *mon.Model
 }
 
-func newDefaultDeptModel(conn *mon.Model) *defaultDeptModel {
-	return &defaultDeptModel{conn: conn}
+func newDefaultCounterModel(conn *mon.Model) *defaultCounterModel {
+	return &defaultCounterModel{conn: conn}
 }
 
-func (m *defaultDeptModel) Insert(ctx context.Context, data *Dept) error {
-	// 自增主键
-	if data.ID!=0 {
-		data.ID = 0
+func (m *defaultCounterModel) Insert(ctx context.Context, data *Counter) error {
+	if data.ID.IsZero() {
+		data.ID = primitive.NewObjectID()
 		data.CreateAt = time.Now()
 		data.UpdateAt = time.Now()
 	}
@@ -40,13 +39,13 @@ func (m *defaultDeptModel) Insert(ctx context.Context, data *Dept) error {
 	return err
 }
 
-func (m *defaultDeptModel) FindOne(ctx context.Context, id string) (*Dept, error) {
+func (m *defaultCounterModel) FindOne(ctx context.Context, id string) (*Counter, error) {
 	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, ErrInvalidObjectId
 	}
 
-	var data Dept
+	var data Counter
 
 	err = m.conn.FindOne(ctx, &data, bson.M{"_id": oid})
 	switch err {
@@ -59,14 +58,14 @@ func (m *defaultDeptModel) FindOne(ctx context.Context, id string) (*Dept, error
 	}
 }
 
-func (m *defaultDeptModel) Update(ctx context.Context, data *Dept) (*mongo.UpdateResult, error) {
+func (m *defaultCounterModel) Update(ctx context.Context, data *Counter) (*mongo.UpdateResult, error) {
 	data.UpdateAt = time.Now()
 
 	res, err := m.conn.UpdateOne(ctx, bson.M{"_id": data.ID}, bson.M{"$set": data})
 	return res, err
 }
 
-func (m *defaultDeptModel) Delete(ctx context.Context, id string) (int64, error) {
+func (m *defaultCounterModel) Delete(ctx context.Context, id string) (int64, error) {
 	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return 0, ErrInvalidObjectId

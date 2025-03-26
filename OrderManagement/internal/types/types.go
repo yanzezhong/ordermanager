@@ -4,12 +4,12 @@
 package types
 
 type AddDeptReq struct {
-	Code     *string `json:"code,omitempty"`
-	ID       *int64  `json:"id,omitempty"`
-	Name     *string `json:"name,omitempty"`
-	ParentID int64   `json:"parentId"`
-	Sort     *int64  `json:"sort,omitempty"`
-	Status   *int64  `json:"status,omitempty"`
+	Code     string `json:"code,omitempty"`
+	ID       int64  `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
+	ParentID int64  `json:"parentId"`
+	Sort     int64  `json:"sort,omitempty"`
+	Status   int64  `json:"status,omitempty"`
 }
 
 type CommonResponse struct {
@@ -19,22 +19,21 @@ type CommonResponse struct {
 }
 
 type CreateMenuReq struct {
-	Authorization string `header:"Authorization"`
-	Id            int64  `json:"id"`
-	ParentId      int64  `json:"parentId"`
-	Name          string `json:"name"`
-	String
-	RouteName  string     `json:"routeName"`
-	RoutePath  string     `json:"routePath"`
-	Component  string     `json:"component"`
-	Perm       string     `json:"perm"`
-	Visible    int32      `json:"visible"`
-	Sort       int32      `json:"sort"`
-	Icon       string     `json:"icon"`
-	Redirect   string     `json:"redirect"`
-	KeepAlive  int32      `json:"keepAlive"`
-	AlwaysShow int32      `json:"alwaysShow"`
-	Params     []KeyValue `json:"params"`
+	Authorization string     `header:"Authorization"`
+	Id            int64      `json:"id"`
+	ParentId      int64      `json:"parentId"`
+	Name          string     `json:"name"`
+	RouteName     string     `json:"routeName"`
+	RoutePath     string     `json:"routePath"`
+	Component     string     `json:"component"`
+	Perm          string     `json:"perm"`
+	Visible       int32      `json:"visible"`
+	Sort          int32      `json:"sort"`
+	Icon          string     `json:"icon"`
+	Redirect      string     `json:"redirect"`
+	KeepAlive     int32      `json:"keepAlive"`
+	AlwaysShow    int32      `json:"alwaysShow"`
+	Params        []KeyValue `json:"params"`
 }
 
 type DeleteDeptReq struct {
@@ -183,10 +182,9 @@ type ListProductResp struct {
 }
 
 type MenuForm struct {
-	Id       int64  `json:"id"`
-	ParentId int64  `json:"parentId"`
-	Name     string `json:"name"`
-	String
+	Id         int64      `json:"id"`
+	ParentId   int64      `json:"parentId"`
+	Name       string     `json:"name"`
 	RouteName  string     `json:"routeName"`
 	RoutePath  string     `json:"routePath"`
 	Component  string     `json:"component"`
@@ -213,10 +211,9 @@ type MenuListResp struct {
 }
 
 type MenuVO struct {
-	Id       int64  `json:"id"`
-	ParentId int64  `json:"parentId"`
-	Name     string `json:"name"`
-	String
+	Id        int64    `json:"id"`
+	ParentId  int64    `json:"parentId"`
+	Name      string   `json:"name"`
 	RouteName string   `json:"routeName"`
 	RoutePath string   `json:"routePath"`
 	Component string   `json:"component"`
@@ -329,10 +326,9 @@ type RouteVO struct {
 }
 
 type UpdateMenuReq struct {
-	Id       int64  `json:"id,omitempty"`
-	ParentId int64  `json:"parentId,omitempty"`
-	Name     string `json:"name,omitempty"`
-	String
+	Id         int64      `json:"id,omitempty"`
+	ParentId   int64      `json:"parentId,omitempty"`
+	Name       string     `json:"name,omitempty"`
 	RouteName  string     `json:"routeName,omitempty"`
 	RoutePath  string     `json:"routePath,omitempty"`
 	Component  string     `json:"component,omitempty"`
