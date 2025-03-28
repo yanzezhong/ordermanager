@@ -125,7 +125,7 @@ type KeyValue struct {
 }
 
 type ListDeptFromReq struct {
-	DeptID int64 `path:"deptId"`
+	DeptID int64 `path:"deptId,omitempty"`
 }
 
 type ListDeptFromResp struct {

@@ -24,7 +24,6 @@ func NewListDeptOptionsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *L
 }
 
 func (l *ListDeptOptionsLogic) ListDeptOptions(req *types.ListDeptOptionsReq) (resp *types.ListDeptOptionsResp, err error) {
-	// todo: add your logic here and delete this line
 
 	return
 }

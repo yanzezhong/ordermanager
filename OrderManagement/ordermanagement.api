@@ -179,7 +179,7 @@ type (
 	}
 	ListDeptFromReq {
 		// 部门ID
-		DeptID int64 `path:"deptId"`
+		DeptID int64 `path:"deptId,omitempty"`
 	}
 	// ResultDeptForm
 	ListDeptFromResp {

@@ -9,4 +9,6 @@ var (
 	OrderNotFoundError = NewCodeError(errorcode.ErrOrderNotFound, "未找到当前订单")
 	// 删除数量过多
 	DeleteCountTooManyError = NewCodeError(errorcode.ErrDeleteCountTooMany, "删除数量过多")
+	// no id
+	NoIdError = NewCodeError(errorcode.ErrNoId, "未传入ID")
 )

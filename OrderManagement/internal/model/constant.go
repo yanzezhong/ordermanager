@@ -5,6 +5,7 @@ const (
 	CollectionProduct = "product"
 	CollectionShop    = "shop"
 	CollectionDept    = "dept"
+	CollectionMenu    = "menu"
 )
 
 // order

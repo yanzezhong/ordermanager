@@ -11,5 +11,7 @@ const (
 
 	ErrDeleteCountTooMany = 1000004
 
+	ErrNoId = 1000005
+
 	ErrDBError = 500001
 )

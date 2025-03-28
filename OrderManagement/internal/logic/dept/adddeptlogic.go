@@ -32,6 +32,7 @@ func (l *AddDeptLogic) AddDept(req *types.AddDeptReq) (resp *types.CommonRespons
 
 	dept := model.Dept{
 		ID:       req.ID,
+		Code:     req.Code,
 		Name:     req.Name,
 		ParentID: req.ParentID,
 		Status:   req.Status,

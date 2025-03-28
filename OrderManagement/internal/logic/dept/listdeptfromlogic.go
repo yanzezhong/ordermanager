@@ -24,7 +24,25 @@ func NewListDeptFromLogic(ctx context.Context, svcCtx *svc.ServiceContext) *List
 }
 
 func (l *ListDeptFromLogic) ListDeptFrom(req *types.ListDeptFromReq) (resp *types.ListDeptFromResp, err error) {
-	// todo: add your logic here and delete this line
 
+	// find one
+	dept, err := l.svcCtx.DeptModel.FindOne(l.ctx, req.DeptID)
+	if err != nil {
+		logx.Error(err)
+		return nil, err
+	}
+	// gen resp for all depts
+	resp = &types.ListDeptFromResp{
+		Code: "200",
+		Data: &types.DeptForm{
+			Code:     dept.Code,
+			ID:       dept.ID,
+			Name:     dept.Name,
+			ParentID: dept.ParentID,
+			Sort:     dept.Sort,
+			Status:   dept.Status,
+		},
+		Msg: "success",
+	}
 	return
 }

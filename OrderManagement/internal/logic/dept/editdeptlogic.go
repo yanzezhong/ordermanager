@@ -25,13 +25,13 @@ func NewEditDeptLogic(ctx context.Context, svcCtx *svc.ServiceContext) *EditDept
 }
 
 func (l *EditDeptLogic) EditDept(req *types.EditDeptReq) (resp *types.CommonResponse, err error) {
-	// todo: add your logic here and delete this line
 	dept := model.Dept{
 		ID:       req.ID,
 		Name:     req.Name,
 		ParentID: req.ParentID,
 		Status:   req.Status,
 		Sort:     req.Sort,
+		Code:     req.Code,
 	}
 
 	_, err = l.svcCtx.DeptModel.Update(l.ctx, &dept)

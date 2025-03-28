@@ -4,6 +4,7 @@
 package model
 
 import (
+	"OrderManagement/OrderManagement/internal/common/errorx"
 	"context"
 	"time"
 
@@ -13,36 +14,39 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type deptModel interface {
-	Insert(ctx context.Context, data *Dept) error
-	FindOne(ctx context.Context, id int64) (*Dept, error)
-	Update(ctx context.Context, data *Dept) (*mongo.UpdateResult, error)
+type menuModel interface {
+	Insert(ctx context.Context, data *Menu) error
+	FindOne(ctx context.Context, id int) (*Menu, error)
+	Update(ctx context.Context, data *Menu) (*mongo.UpdateResult, error)
 	Delete(ctx context.Context, id string) (int64, error)
 }
 
-type defaultDeptModel struct {
+type defaultMenuModel struct {
 	conn *mon.Model
 }
 
-func newDefaultDeptModel(conn *mon.Model) *defaultDeptModel {
-	return &defaultDeptModel{conn: conn}
+func newDefaultMenuModel(conn *mon.Model) *defaultMenuModel {
+	return &defaultMenuModel{conn: conn}
 }
 
-func (m *defaultDeptModel) Insert(ctx context.Context, data *Dept) error {
-	// 自增主键
-	if data.ID!=0 {
-		data.ID = 0
-		data.CreateAt = time.Now()
-		data.UpdateAt = time.Now()
+func (m *defaultMenuModel) Insert(ctx context.Context, data *Menu) error {
+	if data.ID ==0 {
+		// todo generate id
+		return errorx.NoIdError 
+	
 	}
+
+	data.CreateAt = time.Now()
+	data.UpdateAt = time.Now()
 
 	_, err := m.conn.InsertOne(ctx, data)
 	return err
 }
 
-func (m *defaultDeptModel) FindOne(ctx context.Context, id int64) (*Dept, error) {
-	
-	var data Dept
+func (m *defaultMenuModel) FindOne(ctx context.Context, id int) (*Menu, error) {
+
+
+	var data Menu
 
 	err := m.conn.FindOne(ctx, &data, bson.M{"_id": id})
 	switch err {
@@ -55,14 +59,14 @@ func (m *defaultDeptModel) FindOne(ctx context.Context, id int64) (*Dept, error)
 	}
 }
 
-func (m *defaultDeptModel) Update(ctx context.Context, data *Dept) (*mongo.UpdateResult, error) {
+func (m *defaultMenuModel) Update(ctx context.Context, data *Menu) (*mongo.UpdateResult, error) {
 	data.UpdateAt = time.Now()
 
 	res, err := m.conn.UpdateOne(ctx, bson.M{"_id": data.ID}, bson.M{"$set": data})
 	return res, err
 }
 
-func (m *defaultDeptModel) Delete(ctx context.Context, id string) (int64, error) {
+func (m *defaultMenuModel) Delete(ctx context.Context, id string) (int64, error) {
 	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return 0, ErrInvalidObjectId
