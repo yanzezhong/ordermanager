@@ -10,7 +10,6 @@ type KeyValue struct {
 }
 
 type Menu struct {
-	Authorization string     `bson:"authorization" header:"Authorization"`
 	ID            int64      `bson:"id" json:"id"`
 	ParentId      int64      `bson:"parentId" json:"parentId"`
 	Name          string     `bson:"name" json:"name"`

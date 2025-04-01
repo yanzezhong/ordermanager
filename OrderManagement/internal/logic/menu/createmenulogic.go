@@ -31,22 +31,21 @@ func (l *CreateMenuLogic) CreateMenu(req *types.CreateMenuReq) (resp *types.Comm
 
 	// 生成插入逻辑
 	menu := model.Menu{
-		AlwaysShow:    req.AlwaysShow,
-		Component:     req.Component,
-		Icon:          req.Icon,
-		ID:            req.Id,
-		ParentId:      req.ParentId,
-		Name:          req.Name,
-		RouteName:     req.RouteName,
-		RoutePath:     req.RoutePath,
-		Perm:          req.Perm,
-		Visible:       req.Visible,
-		Sort:          req.Sort,
-		Redirect:      req.Redirect,
-		KeepAlive:     req.KeepAlive,
-		Authorization: req.Authorization,
-		UpdateAt:      time.Now(),
-		CreateAt:      time.Now(),
+		AlwaysShow: req.AlwaysShow,
+		Component:  req.Component,
+		Icon:       req.Icon,
+		ID:         req.Id,
+		ParentId:   req.ParentId,
+		Name:       req.Name,
+		RouteName:  req.RouteName,
+		RoutePath:  req.RoutePath,
+		Perm:       req.Perm,
+		Visible:    req.Visible,
+		Sort:       req.Sort,
+		Redirect:   req.Redirect,
+		KeepAlive:  req.KeepAlive,
+		UpdateAt:   time.Now(),
+		CreateAt:   time.Now(),
 	}
 
 	for _, v := range req.Params {

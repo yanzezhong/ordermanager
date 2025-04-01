@@ -62,4 +62,5 @@ func newFunction(menu *model.Menu) map[string]interface{} {
 		})
 	}
 	menuMap["params"] = paramsList
+	return menuMap
 }
