@@ -267,16 +267,16 @@ type UpdateUserReq struct {
 }
 
 type UserForm struct {
-	Avatar   *string `json:"avatar,omitempty"`
-	DeptID   *int64  `json:"deptId,omitempty"`
-	Email    *string `json:"email,omitempty"`
-	Gender   *int64  `json:"gender,omitempty"`
-	ID       *int64  `json:"id,omitempty"`
-	Mobile   *string `json:"mobile,omitempty"`
+	Avatar   string  `json:"avatar,omitempty"`
+	DeptID   int64   `json:"deptId,omitempty"`
+	Email    string  `json:"email,omitempty"`
+	Gender   int64   `json:"gender,omitempty"`
+	ID       int64   `json:"id,omitempty"`
+	Mobile   string  `json:"mobile,omitempty"`
 	Nickname string  `json:"nickname"`
-	OpenID   *string `json:"openId,omitempty"`
+	OpenID   string  `json:"openId,omitempty"`
 	RoleIDS  []int64 `json:"roleIds"`
-	Status   *int64  `json:"status,omitempty"`
+	Status   int64   `json:"status,omitempty"`
 	Username string  `json:"username"`
 }
 
@@ -285,9 +285,9 @@ type UserFormReq struct {
 }
 
 type UserFormResp struct {
-	Code *string   `json:"code,omitempty"`
+	Code string    `json:"code,omitempty"`
 	Data *UserForm `json:"data,omitempty"`
-	Msg  *string   `json:"msg,omitempty"`
+	Msg  string    `json:"msg,omitempty"`
 }
 
 type UserInfoVO struct {

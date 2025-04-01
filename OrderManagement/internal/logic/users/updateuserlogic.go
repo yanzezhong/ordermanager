@@ -24,7 +24,6 @@ func NewUpdateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateUserLogic) UpdateUser(req *types.UserForm) (resp *types.NormalResp, err error) {
-	// todo: add your logic here and delete this line
 
 	return
 }

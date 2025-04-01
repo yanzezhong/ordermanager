@@ -24,7 +24,25 @@ func NewProfileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ProfileLo
 }
 
 func (l *ProfileLogic) Profile(req *types.UserProfileReq) (resp *types.UserFormResp, err error) {
-	// todo: add your logic here and delete this line
 
+	user, err := l.svcCtx.UserModel.FindOne(l.ctx, req.UserID)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &types.UserFormResp{
+		Code: "200",
+		Data: &types.UserForm{
+			Avatar:   user.Avatar,
+			Email:    user.Email,
+			Gender:   user.Gender,
+			Mobile:   user.Mobile,
+			Nickname: user.Nickname,
+			OpenID:   user.OpenID,
+			Status:   int64(user.Status),
+			ID:       user.ID,
+		},
+		Msg: "success",
+	}
 	return
 }
