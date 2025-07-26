@@ -23,10 +23,11 @@ type (
 )
 
 // NewDeptModel returns a model for the mongo.
-func NewDeptModel(url, db, collection string) DeptModel {
+func NewDeptModel(url, db, collection string, counterCollection string) DeptModel {
 	conn := mon.MustNewModel(url, db, collection)
+	counterModel := NewCounterModel(url, db, counterCollection)
 	return &customDeptModel{
-		defaultDeptModel: newDefaultDeptModel(conn),
+		defaultDeptModel: newDefaultDeptModel(conn, counterModel),
 	}
 }
 

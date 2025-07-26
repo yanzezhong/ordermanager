@@ -5,7 +5,7 @@ import (
 )
 
 type Dept struct {
-	ID       int64     `bson:"_id" json:"id"`
+	ID       int64     `bson:"_id,omitempty" json:"id"`
 	Code     string    `bson:"code" json:"code"`
 	Name     string    `bson:"name" json:"name"`
 	ParentID int64     `bson:"parentId" json:"parentId"`

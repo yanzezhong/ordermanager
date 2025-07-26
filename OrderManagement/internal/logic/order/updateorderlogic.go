@@ -27,7 +27,7 @@ func NewUpdateOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 
 func (l *UpdateOrderLogic) UpdateOrder(req *types.PutOrderReq) error {
 
-	order, err := l.svcCtx.OrderModel.FindOne(l.ctx, req.ProductId)
+	order, err := l.svcCtx.OrderModel.FindOne(l.ctx, req.OrderId)
 	if err != nil {
 		return errorx.OrderNotFoundError
 	}
@@ -44,12 +44,25 @@ func (l *UpdateOrderLogic) UpdateOrder(req *types.PutOrderReq) error {
 		}
 	}
 
-	if req.State !=0{
+	if req.State != 0 {
 		if model.State(req.State).IsValid() {
 			order.State = model.State(req.State)
 		} else {
 			return errorx.StateInvalidError
 		}
+	}
+
+	if req.Products != nil {
+		products := make([]*model.Products, 0)
+		for _, product := range req.Products {
+			products = append(products, &model.Products{
+				ProductId: product.ProductId,
+			})
+		}
+	}
+
+	if req.Address != "" {
+		order.Address = req.Address
 	}
 
 	_, err = l.svcCtx.OrderModel.Update(l.ctx, order)

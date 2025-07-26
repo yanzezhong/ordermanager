@@ -6,6 +6,7 @@ import (
 	"OrderManagement/OrderManagement/internal/logic/order"
 	"OrderManagement/OrderManagement/internal/svc"
 	"OrderManagement/OrderManagement/internal/types"
+
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -22,7 +23,7 @@ func AddOrderHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.Ok(w)
+			httpx.OkJson(w, ([]byte(`{"code":"200","msg":"success","data":null}`)))
 		}
 	}
 }

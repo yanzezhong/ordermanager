@@ -38,14 +38,10 @@ func (m *defaultOrderModel) Insert(ctx context.Context, data *Order) error {
 }
 
 func (m *defaultOrderModel) FindOne(ctx context.Context, id string) (*Order, error) {
-	oid, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, ErrInvalidObjectId
-	}
+
 
 	var data Order
-
-	err = m.conn.FindOne(ctx, &data, bson.M{"_id": oid})
+	err := m.conn.FindOne(ctx, &data, bson.M{"_id": id})
 	switch err {
 	case nil:
 		return &data, nil

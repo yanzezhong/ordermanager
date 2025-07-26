@@ -74,3 +74,5 @@ func (m *defaultCounterModel) Delete(ctx context.Context, id string) (int64, err
 	res, err := m.conn.DeleteOne(ctx, bson.M{"_id": oid})
 	return res, err
 }
+
+

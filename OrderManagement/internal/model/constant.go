@@ -6,6 +6,7 @@ const (
 	CollectionShop    = "shop"
 	CollectionDept    = "dept"
 	CollectionMenu    = "menu"
+	CollectionCounter = "counter"
 )
 
 // order

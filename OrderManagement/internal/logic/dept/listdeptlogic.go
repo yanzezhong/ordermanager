@@ -2,6 +2,7 @@ package dept
 
 import (
 	"context"
+	"time"
 
 	"OrderManagement/OrderManagement/internal/model"
 	"OrderManagement/OrderManagement/internal/svc"
@@ -60,9 +61,14 @@ func convertDeptsToDeptVOs(depts []*model.Dept) []types.DeptVO {
 	deptVOs := make([]types.DeptVO, 0, len(depts))
 	for _, dept := range depts {
 		deptVO := types.DeptVO{
-			ID:   &dept.ID,
-			Name: &dept.Name,
-			Code: &dept.Code,
+			ID:         &dept.ID,
+			Name:       &dept.Name,
+			Code:       &dept.Code,
+			ParentID:   &dept.ParentID,
+			Status:     &dept.Status,
+			Sort:       &dept.Sort,
+			CreateTime: dept.CreateAt.Format(time.DateTime),
+			UpdateTime: dept.UpdateAt.Format(time.DateTime),
 		}
 		deptVOs = append(deptVOs, deptVO)
 

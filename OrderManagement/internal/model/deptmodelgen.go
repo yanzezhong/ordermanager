@@ -5,6 +5,7 @@ package model
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/zeromicro/go-zero/core/stores/mon"
@@ -22,21 +23,23 @@ type deptModel interface {
 
 type defaultDeptModel struct {
 	conn *mon.Model
+	counterModel CounterModel // 新增
 }
 
-func newDefaultDeptModel(conn *mon.Model) *defaultDeptModel {
-	return &defaultDeptModel{conn: conn}
+func newDefaultDeptModel(conn *mon.Model, counterModel CounterModel) *defaultDeptModel {
+	return &defaultDeptModel{conn: conn, counterModel: counterModel}
 }
 
 func (m *defaultDeptModel) Insert(ctx context.Context, data *Dept) error {
-	// 自增主键
-	if data.ID!=0 {
-		data.ID = 0
-		data.CreateAt = time.Now()
-		data.UpdateAt = time.Now()
+	// 获取自增ID
+	id, err := getNextDeptID(ctx, m.counterModel)
+	if err != nil {
+		return err
 	}
-
-	_, err := m.conn.InsertOne(ctx, data)
+	data.ID = id
+	data.CreateAt = time.Now()
+	data.UpdateAt = time.Now()
+	_, err = m.conn.InsertOne(ctx, data)
 	return err
 }
 
@@ -70,4 +73,17 @@ func (m *defaultDeptModel) Delete(ctx context.Context, id string) (int64, error)
 
 	res, err := m.conn.DeleteOne(ctx, bson.M{"_id": oid})
 	return res, err
+}
+
+// 新增：自增ID生成函数
+func getNextDeptID(ctx context.Context, counterModel CounterModel) (int64, error) {
+	filter := bson.M{"modelName": "dept"}
+	update := bson.M{"$inc": bson.M{"counter": 1}}
+
+    counter, err := counterModel.FindOneAndUpdate(ctx,filter, update)
+	if err != nil {
+		return 0, err
+	}
+	log.Default().Printf("getNextDeptID counter: %v", counter)
+	return counter, nil
 }

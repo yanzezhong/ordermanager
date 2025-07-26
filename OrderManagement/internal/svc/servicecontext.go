@@ -21,7 +21,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ShopModel:    model.NewShopModel(c.Mongo.Url, c.Mongo.DB, model.CollectionShop),
 		OrderModel:   model.NewOrderModel(c.Mongo.Url, c.Mongo.DB, model.CollectionOrder),
 		ProductModel: model.NewProductModel(c.Mongo.Url, c.Mongo.DB, model.CollectionProduct),
-		DeptModel:    model.NewDeptModel(c.Mongo.Url, c.Mongo.DB, model.CollectionDept),
+		DeptModel:    model.NewDeptModel(c.Mongo.Url, c.Mongo.DB, model.CollectionDept, model.CollectionCounter),
 		MenuModel:    model.NewMenuModel(c.Mongo.Url, c.Mongo.DB, model.CollectionMenu),
 	}
 }

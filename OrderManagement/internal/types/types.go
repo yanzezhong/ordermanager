@@ -5,10 +5,8 @@ package types
 
 type AddDeptReq struct {
 	Code     string `json:"code,optional"`
-	ID       int64  `json:"id,optional"`
-	Name     string `json:"name,optional"`
-	ParentID int64  `json:"optional"`
-	Sort     int64  `json:"sort,optional"`
+	Name     string `json:"name"`
+	ParentID int64  `json:"parentID,optional"`
 	Status   int64  `json:"status,optional"`
 }
 
@@ -57,18 +55,18 @@ type DeptForm struct {
 type DeptVO struct {
 	Children   []DeptVO `json:"children,omitempty"`
 	Code       *string  `json:"code,omitempty"`
-	CreateTime *string  `json:"createTime,omitempty"`
+	CreateTime string  `json:"createTime,omitempty"`
 	ID         *int64   `json:"id,omitempty"`
 	Name       *string  `json:"name,omitempty"`
 	ParentID   *int64   `json:"parentId,omitempty"`
 	Sort       *int64   `json:"sort,omitempty"`
 	Status     *int64   `json:"status,omitempty"`
-	UpdateTime *string  `json:"updateTime,omitempty"`
+	UpdateTime string  `json:"updateTime,omitempty"`
 }
 
 type EditDeptReq struct {
 	DeptID   int64  `path:"deptId"`
-	Code     string `json:"code"`
+	Code     string `json:"code,optional"`
 	ID       int64  `json:"id"`
 	Name     string `json:"name"`
 	ParentID int64  `json:"parentId"`
@@ -156,11 +154,11 @@ type ListDeptVOResp struct {
 }
 
 type ListOrderRequest struct {
-	State     int    `form:"state"`
-	ShopId    string `form:"shopId"`
-	ProductID string `form:"productId"`
-	Page      int    `form:"page"`
-	Size      int    `form:"size"`
+	State     int    `form:"state,optional"`
+	ShopId    string `form:"shopId,optional"`
+	ProductID string `form:"productId,optional"`
+	Page      int    `form:"page,optional"`
+	Size      int    `form:"size,default=20"`
 }
 
 type ListOrderResp struct {
@@ -301,7 +299,7 @@ type Products struct {
 }
 
 type PutOrderReq struct {
-	ProductId string      `json:"productId"`
+	OrderId string      `path:"orderId"`
 	Products  []*Products `json:"products,optional"`
 	Address   string      `json:"address,optional"`
 	State     int         `json:"state,optional"`

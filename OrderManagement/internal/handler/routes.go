@@ -117,7 +117,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPut,
-				Path:    "/order",
+				Path:    "/order/:orderId",
 				Handler: order.UpdateOrderHandler(serverCtx),
 			},
 		},

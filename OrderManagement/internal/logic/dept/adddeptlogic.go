@@ -31,12 +31,10 @@ func (l *AddDeptLogic) AddDept(req *types.AddDeptReq) (resp *types.CommonRespons
 	// https://www.mongodb.com/resources/products/platform/mongodb-auto-increment 自增怎么写
 
 	dept := model.Dept{
-		ID:       req.ID,
 		Code:     req.Code,
 		Name:     req.Name,
 		ParentID: req.ParentID,
 		Status:   req.Status,
-		Sort:     req.Sort,
 	}
 
 	err = l.svcCtx.DeptModel.Insert(l.ctx, &dept)

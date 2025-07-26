@@ -9,6 +9,7 @@ import (
 	"OrderManagement/OrderManagement/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AddOrderLogic struct {
@@ -26,12 +27,11 @@ func NewAddOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddOrder
 }
 
 func (l *AddOrderLogic) AddOrder(req *types.PostOrder) error {
-    // 将req中的同名字段添加到Order中
+	// 将req中的同名字段添加到Order中
 	order := &model.Order{
-		Address: req.Address,
-		ShopId: req.ShopId,
+		Address:  req.Address,
+		ShopId:   req.ShopId,
 		ShopName: req.ShopName,
-		
 	}
 
 	products := make([]*model.Products, 0)
@@ -49,10 +49,11 @@ func (l *AddOrderLogic) AddOrder(req *types.PostOrder) error {
 	order.Products = products
 	order.PurchaserId = req.PurchaserId
 
-	if model.Payment(req.Payment).IsValid(){
+	if model.Payment(req.Payment).IsValid() {
 		order.Payment = model.Payment(req.Payment)
-	}else{
-       return errorx.PaymentStatementInvalidError
+	} else {
+		return errorx.PaymentStatementInvalidError
 	}
+	order.ID = primitive.NewObjectID().Hex()
 	return l.svcCtx.OrderModel.Insert(l.ctx, order)
 }
