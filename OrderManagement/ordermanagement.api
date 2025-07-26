@@ -12,13 +12,7 @@ type (
 	PostProduct {
 		Name          string `json:"name,omitempty"` // 商品名称
 		Price         Price  `json:"price,omitempty"` // 商品价格
-		Name          string `json:"name,omitempty"` // 商品名称
-		Price         Price  `json:"price,omitempty"` // 商品价格
 		Specification int    `json:"specification,omitempty"` // 规格
-		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
-		Image         string `json:"image,omitempty"` // 图片
-		NickName      string `json:"nickName,omitempty"` // 别名
-		BarCode       string `json:"barCode,omitempty"` //条码
 		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
 		Image         string `json:"image,omitempty"` // 图片
 		NickName      string `json:"nickName,omitempty"` // 别名
@@ -27,10 +21,8 @@ type (
 	ListProductReq {
 		ProductId string `json:"productId,optional"`
 		Name      string `json:"name,optional"` // 商品名称
-		Name      string `json:"name,optional"` // 商品名称
 		IsActive  bool   `json:"isActive,optional"` // 是否生效
 		NickName  string `json:"nickName,optional"` // 别名
-		BarCode   string `json:"barCode,optional"` //条码
 		BarCode   string `json:"barCode,optional"` //条码
 	}
 	ListProductResp {
@@ -46,19 +38,11 @@ type (
 		Image         string `json:"image,omitempty"` // 图片
 		NickName      string `json:"nickName,omitempty"` // 别名
 		BarCode       string `json:"barCode,omitempty"` //条码
-		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
-		Image         string `json:"image,omitempty"` // 图片
-		NickName      string `json:"nickName,omitempty"` // 别名
-		BarCode       string `json:"barCode,omitempty"` //条码
 	}
 	// Price 价格应该写在订单上,该Price只用作展示
 	Price {
 		Terminal  float64 `json:"terminal,omitempty"` // 终端零售价
-		Terminal  float64 `json:"terminal,omitempty"` // 终端零售价
 		WholeSale float64 `json:"wholesale,omitempty"` // 批发零售价
-		Cost      float64 `json:"cost,omitempty"` // 进价
-		SRP       float64 `json:"srp,omitempty"` // 建议零售价 Suggested Retail Price
-		Warning   float64 `json:"warning,omitempty"` // 报警价格
 		Cost      float64 `json:"cost,omitempty"` // 进价
 		SRP       float64 `json:"srp,omitempty"` // 建议零售价 Suggested Retail Price
 		Warning   float64 `json:"warning,omitempty"` // 报警价格
@@ -77,7 +61,7 @@ type (
 		Payment int `json:"payment"`
 	}
 	PutOrderReq {
-			OrderId string      `path:"orderId"`
+		OrderId string `path:"orderId"`
 		// 货品列表
 		Products []*Products `json:"products,optional"`
 		// 收货地址
@@ -257,6 +241,11 @@ type (
 	}
 	UserReq {
 		Authorization string `header:"authorization"`
+	}
+	AuthResp {
+		Code string      `json:"code,omitempty"`
+		Data interface{} `json:"data,omitempty"`
+		Msg  string      `json:"msg,omitempty"`
 	}
 	// ResultUserInfoVO
 	UserResp {
@@ -727,7 +716,7 @@ service OrderManagement {
 	get /order (ListOrderRequest) returns (ListOrderResp)
 
 	@handler UpdateOrder
-	put /order(PutOrderReq)
+	put /order/:orderId (PutOrderReq)
 }
 
 @server (
@@ -743,5 +732,111 @@ service OrderManagement {
 	put /product (PostProduct)
 
 	@handler ListProduct
-	get /product(ListProductReq) returns (ListProductResp)
+	get /product (ListProductReq) returns (ListProductResp)
+
+	@handler GetProductSalesStats
+	get /product/sales/trend (ProductSalesTrendReq) returns (ProductSalesTrendResp)
 }
+
+@server (
+	group:  dept
+	prefix: /v1
+)
+service OrderManagement {
+	@handler EditDept
+	put /dept/:deptId (EditDeptReq) returns (CommonResponse)
+
+	@handler ListDept
+	get /dept (ListDeptReq) returns (ListDeptVOResp)
+
+	@handler AddDept
+	post /dept (AddDeptReq) returns (CommonResponse)
+
+	@handler ListDeptFrom
+	get /dept/:deptId/form (ListDeptFromReq) returns (ListDeptFromResp)
+
+	@handler ListDeptOptions
+	get /dept/options (ListDeptOptionsReq) returns (ListDeptOptionsResp)
+
+	@handler DeleteDeptReq
+	delete /dept/:ids (DeleteDeptReq) returns (CommonResponse)
+}
+
+@server (
+	group:  menu
+	prefix: /v1
+)
+service OrderManagement {
+	@handler UpdateMenuReq
+	// 更新
+	put /api/v1/menus/:Id (UpdateMenuReq) returns (CommonResponse)
+
+	// 删除菜单
+	@handler deleteMenu
+	delete /api/v1/menus/:id (DeleteMenuReq) returns (CommonResponse)
+
+	// 获取菜单列表
+	@handler getMenuList
+	get /api/v1/menus (MenuListReq) returns (MenuListResp)
+
+	// 新增菜单
+	@handler createMenu
+	post /api/v1/menus (CreateMenuReq) returns (CommonResponse)
+
+	// 修改菜单显示状态
+	@handler updateMenuVisibility
+	patch /api/v1/menus/:menuId (UpdateMenuVisibilityReq) returns (CommonResponse)
+
+	// 获取菜单表单数据
+	@handler getMenuFormData
+	get /api/v1/menus/:id/form (GetMenuFormDataReq) returns (GetMenuFormDataResp)
+
+	// 获取菜单路由列表
+	@handler getMenuRoutes
+	get /api/v1/menus/routes (GetMenuRoutesReq) returns (GetMenuRoutesResp)
+
+	// 获取菜单详情
+	@handler getMenuDetail
+	get /api/v1/menus/:id (GetMenuDetailReq) returns (GetMenuDetailResp)
+
+	// 获取菜单下拉列表
+	@handler getMenuOptions
+	get /api/v1/menus/options (GetMenuOptionsReq) returns (GetMenuOptionsResp)
+}
+
+@server (
+	group:  shop
+	prefix: /v1
+)
+service OrderManagement {
+	@handler AddShop
+	post /shop (PostShop)
+
+	@handler UpdateShop
+	put /shop (PostShop)
+
+	@handler ListShop
+	get /shop (ListShopReq) returns (ListShopResp)
+
+	@handler GetShopSalesStats
+	get /shop/sales/stats (ShopSalesStatsReq) returns (ShopSalesStatsResp)
+}
+
+@server (
+	group:  auth
+	prefix: /v1/auth
+)
+service OrderManagement {
+	@handler Login
+	post /login (LoginReq) returns (LoginResp)
+
+	@handler RefreshToken
+	post /refresh-token (RefreshTokenReq) returns (AuthResp)
+
+	@handler Captcha
+	get /captcha (CaptchaReq) returns (CaptchaResp)
+
+	@handler Logout
+	delete /logout (LogoutReq) returns (AuthResp)
+}
+
