@@ -3,6 +3,7 @@ package svc
 import (
 	"OrderManagement/OrderManagement/internal/config"
 	"OrderManagement/OrderManagement/internal/model"
+	"OrderManagement/OrderManagement/internal/utils"
 )
 
 type ServiceContext struct {
@@ -13,6 +14,8 @@ type ServiceContext struct {
 	ProductModel model.ProductModel
 	DeptModel    model.DeptModel
 	MenuModel    model.MenuModel
+	UserModel    model.UserModel
+	TokenCache   *utils.DataCache
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -23,5 +26,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ProductModel: model.NewProductModel(c.Mongo.Url, c.Mongo.DB, model.CollectionProduct),
 		DeptModel:    model.NewDeptModel(c.Mongo.Url, c.Mongo.DB, model.CollectionDept, model.CollectionCounter),
 		MenuModel:    model.NewMenuModel(c.Mongo.Url, c.Mongo.DB, model.CollectionMenu),
+		UserModel:    model.NewUserModel(c.Mongo.Url, c.Mongo.DB, model.CollectionProduct),
+		TokenCache:   utils.NewDataCache(),
 	}
 }

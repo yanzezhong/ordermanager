@@ -7,6 +7,7 @@ const (
 	CollectionDept    = "dept"
 	CollectionMenu    = "menu"
 	CollectionCounter = "counter"
+	CollectionUser    = "user"
 )
 
 // order
@@ -28,6 +29,11 @@ const (
 	PaymentPaid Payment = 1
 	// PaymentUnpaid 未支付
 	PaymentUnpaid Payment = 2
+
+	// 用户状态 删除
+	UserStateDelete UserState = 1
+	// 用户状态 正常
+	UserStateNormal UserState = 2
 )
 
 func (s State) IsValid() bool {

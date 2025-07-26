@@ -159,6 +159,74 @@ type ListOrderRequest struct {
 	ProductID string `form:"productId,optional"`
 	Page      int    `form:"page,optional"`
 	Size      int    `form:"size,default=20"`
+// goctl 1.7.6
+
+package types
+
+type AddUserReq struct {
+	Avatar   string   `json:"avatar,omitempty"`
+	DeptID   int64    `json:"deptId,omitempty"`
+	Email    string   `json:"email,omitempty"`
+	Gender   int64    `json:"gender,omitempty"`
+	ID       *int64   `json:"id,omitempty"`
+	Mobile   string   `json:"mobile,omitempty"`
+	Nickname string   `json:"nickname"`
+	OpenID   string   `json:"openId,omitempty"`
+	RoleIDS  []string `json:"roleIds"`
+	Status   int64    `json:"status,omitempty"`
+	Username string   `json:"username"`
+	Password string   `json:"password"`
+}
+
+type AuthenticationToken struct {
+	AccessToken  string `json:"accessToken,omitempty"`
+	ExpiresIn    int64  `json:"expiresIn,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+	TokenType    string `json:"tokenType,omitempty"`
+}
+
+type CAPTCHAInfo struct {
+	CAPTCHABase64 *string `json:"captchaBase64,omitempty"`
+	CAPTCHAKey    *string `json:"captchaKey,omitempty"`
+}
+
+type CaptchaReq struct {
+}
+
+type CaptchaResp struct {
+	Code string       `json:"code,omitempty"`
+	Data *CAPTCHAInfo `json:"data,omitempty"`
+	Msg  string       `json:"msg,omitempty"`
+}
+
+type DataUserPageVO struct {
+	List  []UserPageVO `json:"list,omitempty"`
+	Total int64        `json:"total,omitempty"`
+}
+
+type DeleUserReq struct {
+	IDS string `jsonjson:"ids"`
+}
+
+type InvoiceShopMonth struct {
+	Year          int         `json:"year"`           // 年份
+	Month         int         `json:"month"`          // 月份
+	Customer      string      `json:"customer"`       // 客户名称，记录与单据相关的客户
+	CustomerLevel string      `json:"customer_level"` // 客户级别，例如普通客户、VIP客户等
+	Handler       []string    `json:"handler"`        // 经手人，记录处理单据的人员
+	SalesRevenue  float64     `json:"sales_revenue"`  // 销售收入，记录销售的总收入
+	SKUNum        int         `json:"sku_num"`        // SKU 数量
+	SKU           []*SKUMonth `json:"sku"`            // SKU 列表
+	DisSKU        []string    `json:"dis_sku"`        // 失效 SKU 列表
+	NewSKU        []string    `json:"new_sku"`        // 新增 SKU 列表
+}
+
+type ListOrderRequest struct {
+	State     int    `form:"state"`
+	ShopId    string `form:"shopId"`
+	ProductID string `form:"productId"`
+	Page      int    `form:"page"`
+	Size      int    `form:"size"`
 }
 
 type ListOrderResp struct {
@@ -179,6 +247,7 @@ type ListProductResp struct {
 	Count int        `json:"count"`
 }
 
+<<<<<<< HEAD
 type MenuForm struct {
 	Id         int64      `json:"id"`
 	ParentId   int64      `json:"parentId"`
@@ -237,6 +306,41 @@ type OptionLong struct {
 	Label    *string      `json:"label,omitempty"`
 	Tag      *string      `json:"tag,omitempty"`
 	Value    *int64       `json:"value,omitempty"`
+=======
+type ListShopReq struct {
+	Page          int    `form:"page"`                   // 当前页码
+	Size          int    `form:"size"`                   // 每页大小
+	ShopName      string `form:"shopName,optional"`      // 商店名称
+	CustomerLevel string `form:"customerLevel,optional"` // 客户级别
+	Address       string `form:"address,optional"`       // 地址
+	PhoneNumber   string `form:"phoneNumber,optional"`   // 电话号码
+}
+
+type ListShopResp struct {
+	Items []*Shop `json:"items"` // 商店列表
+	Count int64   `json:"count"` // 总记录数
+}
+
+type LoginReq struct {
+	Password string `form:"password"`
+	Username string `form:"username"`
+}
+
+type LoginResp struct {
+	Code string               `json:"code,omitempty"`
+	Data *AuthenticationToken `json:"data,omitempty"`
+	Msg  string               `json:"msg,omitempty"`
+}
+
+type LogoutReq struct {
+	Authorization string `header:"authorization"`
+}
+
+type NormalResp struct {
+	Code string      `json:"code,omitempty"`
+	Data interface{} `json:"data,omitempty"`
+	Msg  string      `json:"msg,omitempty"`
+>>>>>>> yanzezhong/auth
 }
 
 type Order struct {
@@ -272,6 +376,17 @@ type PostProduct struct {
 	BarCode       string `json:"barCode,omitempty"`       //条码
 }
 
+<<<<<<< HEAD
+=======
+type PostShop struct {
+	ID            string `json:"id,omitempty"`
+	ShopName      string `json:"shop_name,omitempty"`
+	CustomerLevel string `json:"customer_level,omitempty"`
+	Address       string `json:"address,omitempty"`
+	PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+}
+
+>>>>>>> yanzezhong/auth
 type Price struct {
 	Terminal  float64 `json:"terminal,omitempty"`  // 终端零售价
 	WholeSale float64 `json:"wholesale,omitempty"` // 批发零售价
@@ -291,6 +406,25 @@ type Product struct {
 	BarCode       string `json:"barCode,omitempty"`       //条码
 }
 
+<<<<<<< HEAD
+=======
+type ProductSalesTrendItem struct {
+	Date    string  `json:"date"`
+	Sales   int     `json:"sales"`
+	Revenue float64 `json:"revenue"`
+}
+
+type ProductSalesTrendReq struct {
+	ProductID string `form:"productId,optional"` // 商品ID
+	StartTime int64  `form:"startTime,optional"` // 开始时间戳
+	EndTime   int64  `form:"endTime,optional"`   // 结束时间戳
+}
+
+type ProductSalesTrendResp struct {
+	Items []ProductSalesTrendItem `json:"items"`
+}
+
+>>>>>>> yanzezhong/auth
 type Products struct {
 	ProductId   string  `json:"productId"`
 	ProductName string  `json:"productName"`
@@ -299,13 +433,25 @@ type Products struct {
 }
 
 type PutOrderReq struct {
+<<<<<<< HEAD
 	OrderId string      `path:"orderId"`
+=======
+	ProductId string      `json:"productId"`
+>>>>>>> yanzezhong/auth
 	Products  []*Products `json:"products,optional"`
 	Address   string      `json:"address,optional"`
 	State     int         `json:"state,optional"`
 	Payment   int         `json:"payment,optional"`
 }
 
+<<<<<<< HEAD
+=======
+type RefreshTokenReq struct {
+	RefreshToken  string `form:"refreshToken"`
+	Authorization string `header:"authorization"`
+}
+
+>>>>>>> yanzezhong/auth
 type Request struct {
 	Name string `path:"name,options=you|me"`
 }
@@ -314,6 +460,7 @@ type Response struct {
 	Message string `json:"message"`
 }
 
+<<<<<<< HEAD
 type RouteVO struct {
 	Path      string    `json:"path"`
 	Component string    `json:"component"`
@@ -344,4 +491,123 @@ type UpdateMenuVisibilityReq struct {
 	MenuId        int    `path:"menuId"`
 	Visible       int    `query:"visible"`
 	Authorization string `header:"Authorization"`
+=======
+type SKUMonth struct {
+	Handler      string  `json:"handler"`       // 经手人，记录处理单据的人员
+	SKU          string  `json:"sku"`           // SKU 编码
+	SalesRevenue float64 `json:"sales_revenue"` // 销售收入，记录销售的总收入
+}
+
+type Shop struct {
+	ID            string `bson:"_id,omitempty" json:"id,omitempty"`
+	ShopName      string `bson:"shopName,omitempty" json:"shop_name,omitempty"`
+	CustomerLevel string `bson:"customerLevel,omitempty" json:"customer_level,omitempty"`
+	Address       string `bson:"address,omitempty" json:"address,omitempty"`
+	ShopNameMD5   string `bson:"shopNameMD5,omitempty" json:"shop_name_md5,omitempty"`
+	PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+	UpdateAt      int64  `json:"update_at,omitempty"`
+	CreateAt      int64  `json:"create_at,omitempty"`
+}
+
+type ShopSalesStatsItem struct {
+	Year             int                 `json:"year"`  // 年份
+	Month            int                 `json:"month"` // 月份
+	InvoiceShopMonth []*InvoiceShopMonth `json:"invoice_shop_month"`
+}
+
+type ShopSalesStatsReq struct {
+	ShopID    string `form:"ShopId,optional"`    // 商品ID
+	ShopName  string `form:"ShopName,optional"`  // 商店名称
+	Handler   string `json:"handler,optional"`   // 经手人，记录处理单据的人员
+	StartTime int64  `form:"startTime,optional"` // 开始时间戳
+	EndTime   int64  `form:"endTime,optional"`   // 结束时间戳
+}
+
+type ShopSalesStatsResp struct {
+	Items []*ShopSalesStatsItem `json:"items"`
+	Count int64                 `json:"count"`
+}
+
+type UpdateUserReq struct {
+	UserID int64 `path:"userId"`
+}
+
+type UserForm struct {
+	Avatar   string  `json:"avatar,omitempty"`
+	DeptID   int64   `json:"deptId,omitempty"`
+	Email    string  `json:"email,omitempty"`
+	Gender   int64   `json:"gender,omitempty"`
+	ID       int64   `json:"id,omitempty"`
+	Mobile   string  `json:"mobile,omitempty"`
+	Nickname string  `json:"nickname"`
+	OpenID   string  `json:"openId,omitempty"`
+	RoleIDS  []int64 `json:"roleIds"`
+	Status   int64   `json:"status,omitempty"`
+	Username string  `json:"username"`
+}
+
+type UserFormReq struct {
+	UserID int64 `path:"userId"`
+}
+
+type UserFormResp struct {
+	Code string    `json:"code,omitempty"`
+	Data *UserForm `json:"data,omitempty"`
+	Msg  string    `json:"msg,omitempty"`
+}
+
+type UserInfoVO struct {
+	Avatar   string   `json:"avatar,omitempty"`
+	Nickname string   `json:"nickname,omitempty"`
+	Perms    []string `json:"perms,omitempty"`
+	Roles    []string `json:"roles,omitempty"`
+	UserID   int64    `json:"userId,omitempty"`
+	Username string   `json:"username,omitempty"`
+}
+
+type UserListReq struct {
+	CreateTime *string `json:"createTime,omitempty"`
+	DeptID     *string `json:"deptId,omitempty"`
+	Direction  *string `json:"direction,omitempty"`
+	Field      *string `json:"field,omitempty"`
+	Keywords   *string `json:"keywords,omitempty"`
+	PageNum    string  `json:"pageNum"`
+	PageSize   string  `json:"pageSize"`
+	RoleIDS    *string `json:"roleIds,omitempty"`
+	Status     *string `json:"status,omitempty"`
+}
+
+type UserListResp struct {
+	Code string          `json:"code,omitempty"`
+	Data *DataUserPageVO `json:"data,omitempty"`
+	Msg  string          `json:"msg,omitempty"`
+}
+
+type UserPageVO struct {
+	Avatar     string   `json:"avatar,omitempty"`
+	CreateTime int64    `json:"createTime,omitempty"`
+	DeptName   string   `json:"deptName,omitempty"`
+	Email      string   `json:"email,omitempty"`
+	Gender     int64    `json:"gender,omitempty"`
+	ID         int64    `json:"id,omitempty"`
+	Mobile     string   `json:"mobile,omitempty"`
+	Nickname   string   `json:"nickname,omitempty"`
+	RoleNames  []string `json:"roleNames,omitempty"`
+	Status     int      `json:"status,omitempty"`
+	Username   string   `json:"username,omitempty"`
+}
+
+type UserProfileReq struct {
+	UserID int64 `jsonjson:"userId"`
+}
+
+type UserReq struct {
+	Authorization string `header:"authorization"`
+}
+
+type UserResp struct {
+	Code string      `json:"code,omitempty"`
+	Data *UserInfoVO `json:"data,omitempty"`
+	Msg  string      `json:"msg,omitempty"`
+>>>>>>> yanzezhong/auth
 }

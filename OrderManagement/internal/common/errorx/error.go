@@ -11,4 +11,9 @@ var (
 	DeleteCountTooManyError = NewCodeError(errorcode.ErrDeleteCountTooMany, "删除数量过多")
 	// no id
 	NoIdError = NewCodeError(errorcode.ErrNoId, "未传入ID")
+
+	UserOrPasswordNotFound = NewCodeError(errorcode.ErrUserOrPasswordNotFound, "用户名或密码错误")
+
+	// "最多只能删除5个用户"
+	MaxDeleteUserError = NewCodeError(errorcode.ErrMaxDeleteUser, "最多只能删除5个用户")
 )

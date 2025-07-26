@@ -11,7 +11,9 @@ const (
 
 	ErrDeleteCountTooMany = 1000004
 
-	ErrNoId = 1000005
+	ErrNoId                   = 1000005
+	ErrUserOrPasswordNotFound = 1010006
+	ErrMaxDeleteUser          = 1010007
 
 	ErrDBError = 500001
 )

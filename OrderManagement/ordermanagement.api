@@ -12,7 +12,13 @@ type (
 	PostProduct {
 		Name          string `json:"name,omitempty"` // 商品名称
 		Price         Price  `json:"price,omitempty"` // 商品价格
+		Name          string `json:"name,omitempty"` // 商品名称
+		Price         Price  `json:"price,omitempty"` // 商品价格
 		Specification int    `json:"specification,omitempty"` // 规格
+		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
+		Image         string `json:"image,omitempty"` // 图片
+		NickName      string `json:"nickName,omitempty"` // 别名
+		BarCode       string `json:"barCode,omitempty"` //条码
 		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
 		Image         string `json:"image,omitempty"` // 图片
 		NickName      string `json:"nickName,omitempty"` // 别名
@@ -21,8 +27,10 @@ type (
 	ListProductReq {
 		ProductId string `json:"productId,optional"`
 		Name      string `json:"name,optional"` // 商品名称
+		Name      string `json:"name,optional"` // 商品名称
 		IsActive  bool   `json:"isActive,optional"` // 是否生效
 		NickName  string `json:"nickName,optional"` // 别名
+		BarCode   string `json:"barCode,optional"` //条码
 		BarCode   string `json:"barCode,optional"` //条码
 	}
 	ListProductResp {
@@ -38,11 +46,19 @@ type (
 		Image         string `json:"image,omitempty"` // 图片
 		NickName      string `json:"nickName,omitempty"` // 别名
 		BarCode       string `json:"barCode,omitempty"` //条码
+		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
+		Image         string `json:"image,omitempty"` // 图片
+		NickName      string `json:"nickName,omitempty"` // 别名
+		BarCode       string `json:"barCode,omitempty"` //条码
 	}
 	// Price 价格应该写在订单上,该Price只用作展示
 	Price {
 		Terminal  float64 `json:"terminal,omitempty"` // 终端零售价
+		Terminal  float64 `json:"terminal,omitempty"` // 终端零售价
 		WholeSale float64 `json:"wholesale,omitempty"` // 批发零售价
+		Cost      float64 `json:"cost,omitempty"` // 进价
+		SRP       float64 `json:"srp,omitempty"` // 建议零售价 Suggested Retail Price
+		Warning   float64 `json:"warning,omitempty"` // 报警价格
 		Cost      float64 `json:"cost,omitempty"` // 进价
 		SRP       float64 `json:"srp,omitempty"` // 建议零售价 Suggested Retail Price
 		Warning   float64 `json:"warning,omitempty"` // 报警价格
@@ -113,6 +129,284 @@ type (
 		Price float64 `json:"price"`
 		// 商品数量
 		Count int `json:"count"`
+	}
+	ProductSalesTrendReq {
+		ProductID string `form:"productId,optional"` // 商品ID
+		StartTime int64  `form:"startTime,optional"` // 开始时间戳
+		EndTime   int64  `form:"endTime,optional"` // 结束时间戳
+	}
+	ProductSalesTrendResp {
+		Items []ProductSalesTrendItem `json:"items"`
+	}
+	ProductSalesTrendItem {
+		Date    string  `json:"date"`
+		Sales   int     `json:"sales"`
+		Revenue float64 `json:"revenue"`
+	}
+	PostShop {
+		ID            string `json:"id,omitempty"`
+		ShopName      string `json:"shop_name,omitempty"`
+		CustomerLevel string `json:"customer_level,omitempty"`
+		Address       string `json:"address,omitempty"`
+		PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+	}
+	Shop {
+		ID            string `bson:"_id,omitempty" json:"id,omitempty"`
+		ShopName      string `bson:"shopName,omitempty" json:"shop_name,omitempty"`
+		CustomerLevel string `bson:"customerLevel,omitempty" json:"customer_level,omitempty"`
+		Address       string `bson:"address,omitempty" json:"address,omitempty"`
+		ShopNameMD5   string `bson:"shopNameMD5,omitempty" json:"shop_name_md5,omitempty"`
+		PhoneNumber   string `json:"phone_number,omitempty"` // 去掉 bson 标签，使用下划线命名
+		UpdateAt      int64  `json:"update_at,omitempty"`
+		CreateAt      int64  `json:"create_at,omitempty"`
+	}
+	ListShopReq {
+		Page          int    `form:"page"` // 当前页码
+		Size          int    `form:"size"` // 每页大小
+		ShopName      string `form:"shopName,optional"` // 商店名称
+		CustomerLevel string `form:"customerLevel,optional"` // 客户级别
+		Address       string `form:"address,optional"` // 地址
+		PhoneNumber   string `form:"phoneNumber,optional"` // 电话号码
+	}
+	ListShopResp {
+		Items []*Shop `json:"items"` // 商店列表
+		Count int64   `json:"count"` // 总记录数
+	}
+	SKUMonth {
+		Handler      string  `json:"handler"` // 经手人，记录处理单据的人员
+		SKU          string  `json:"sku"` // SKU 编码
+		SalesRevenue float64 `json:"sales_revenue"` // 销售收入，记录销售的总收入
+	}
+	InvoiceShopMonth {
+		Year          int         `json:"year"` // 年份
+		Month         int         `json:"month"` // 月份
+		Customer      string      `json:"customer"` // 客户名称，记录与单据相关的客户
+		CustomerLevel string      `json:"customer_level"` // 客户级别，例如普通客户、VIP客户等
+		Handler       []string    `json:"handler"` // 经手人，记录处理单据的人员
+		SalesRevenue  float64     `json:"sales_revenue"` // 销售收入，记录销售的总收入
+		SKUNum        int         `json:"sku_num"` // SKU 数量
+		SKU           []*SKUMonth `json:"sku"` // SKU 列表
+		DisSKU        []string    `json:"dis_sku"` // 失效 SKU 列表
+		NewSKU        []string    `json:"new_sku"` // 新增 SKU 列表
+	}
+	ShopSalesStatsItem {
+		Year             int                 `json:"year"` // 年份
+		Month            int                 `json:"month"` // 月份
+		InvoiceShopMonth []*InvoiceShopMonth `json:"invoice_shop_month"`
+	}
+	ShopSalesStatsReq {
+		ShopID    string `form:"ShopId,optional"` // 商品ID
+		ShopName  string `form:"ShopName,optional"` // 商店名称
+		Handler   string `json:"handler,optional"` // 经手人，记录处理单据的人员
+		StartTime int64  `form:"startTime,optional"` // 开始时间戳
+		EndTime   int64  `form:"endTime,optional"` // 结束时间戳
+	}
+	ShopSalesStatsResp {
+		Items []*ShopSalesStatsItem `json:"items"`
+		Count int64                 `json:"count"`
+	}
+	// ResultAuthenticationToken
+	LoginResp {
+		Code string               `json:"code,omitempty"`
+		Data *AuthenticationToken `json:"data,omitempty"`
+		Msg  string               `json:"msg,omitempty"`
+	}
+	NormalResp {
+		Code string      `json:"code,omitempty"`
+		Data interface{} `json:"data,omitempty"`
+		Msg  string      `json:"msg,omitempty"`
+	}
+	// AuthenticationToken, 认证令牌响应对象
+	AuthenticationToken {
+		// 访问令牌
+		AccessToken string `json:"accessToken,omitempty"`
+		// 过期时间(单位：秒)
+		ExpiresIn int64 `json:"expiresIn,omitempty"`
+		// 刷新令牌
+		RefreshToken string `json:"refreshToken,omitempty"`
+		// 令牌类型
+		TokenType string `json:"tokenType,omitempty"`
+	}
+	LoginReq {
+		// 密码
+		Password string `form:"password"`
+		// 用户名
+		Username string `form:"username"`
+	}
+	RefreshTokenReq {
+		// 刷新令牌
+		RefreshToken  string `form:"refreshToken"`
+		Authorization string `header:"authorization"`
+	}
+	CaptchaReq  {}
+	// ResultCaptchaInfo
+	CaptchaResp {
+		Code string       `json:"code,omitempty"`
+		Data *CAPTCHAInfo `json:"data,omitempty"`
+		Msg  string       `json:"msg,omitempty"`
+	}
+	// CaptchaInfo, 验证码信息
+	CAPTCHAInfo {
+		// 验证码图片Base64字符串
+		CAPTCHABase64 *string `json:"captchaBase64,omitempty"`
+		// 验证码缓存 Key
+		CAPTCHAKey *string `json:"captchaKey,omitempty"`
+	}
+	LogoutReq {
+		Authorization string `header:"authorization"`
+	}
+	UserReq {
+		Authorization string `header:"authorization"`
+	}
+	// ResultUserInfoVO
+	UserResp {
+		Code string      `json:"code,omitempty"`
+		Data *UserInfoVO `json:"data,omitempty"`
+		Msg  string      `json:"msg,omitempty"`
+	}
+	// UserInfoVO, 当前登录用户视图对象
+	UserInfoVO {
+		// 头像地址
+		Avatar string `json:"avatar,omitempty"`
+		// 用户昵称
+		Nickname string `json:"nickname,omitempty"`
+		// 用户权限标识集合
+		Perms []string `json:"perms,omitempty"`
+		// 用户角色编码集合
+		Roles []string `json:"roles,omitempty"`
+		// 用户ID
+		UserID int64 `json:"userId,omitempty"`
+		// 用户名
+		Username string `json:"username,omitempty"`
+	}
+	UserListReq {
+		// 创建时间范围
+		CreateTime *string `json:"createTime,omitempty"`
+		// 部门ID
+		DeptID *string `json:"deptId,omitempty"`
+		// 排序方式（正序:ASC；反序:DESC）
+		Direction *string `json:"direction,omitempty"`
+		// 排序的字段
+		Field *string `json:"field,omitempty"`
+		// 关键字(用户名/昵称/手机号)
+		Keywords *string `json:"keywords,omitempty"`
+		// 页码
+		PageNum string `json:"pageNum"`
+		// 每页记录数
+		PageSize string `json:"pageSize"`
+		// 角色ID
+		RoleIDS *string `json:"roleIds,omitempty"`
+		// 用户状态
+		Status *string `json:"status,omitempty"`
+	}
+	// PageResultUserPageVO
+	UserListResp {
+		Code string          `json:"code,omitempty"`
+		Data *DataUserPageVO `json:"data,omitempty"`
+		Msg  string          `json:"msg,omitempty"`
+	}
+	// DataUserPageVO
+	DataUserPageVO {
+		List  []UserPageVO `json:"list,omitempty"`
+		Total int64        `json:"total,omitempty"`
+	}
+	// UserPageVO, 用户分页对象
+	UserPageVO {
+		// 用户头像地址
+		Avatar string `json:"avatar,omitempty"`
+		// 创建时间
+		CreateTime int64 `json:"createTime,omitempty"`
+		// 部门名称
+		DeptName string `json:"deptName,omitempty"`
+		// 用户邮箱
+		Email string `json:"email,omitempty"`
+		// 性别
+		Gender int64 `json:"gender,omitempty"`
+		// 用户ID
+		ID int64 `json:"id,omitempty"`
+		// 手机号
+		Mobile string `json:"mobile,omitempty"`
+		// 用户昵称
+		Nickname string `json:"nickname,omitempty"`
+		// 角色名称，多个使用英文逗号(,)分割
+		RoleNames []string `json:"roleNames,omitempty"`
+		// 用户状态(1:启用;0:禁用)
+		Status int `json:"status,omitempty"`
+		// 用户名
+		Username string `json:"username,omitempty"`
+	}
+	// UserForm, 用户表单对象
+	AddUserReq {
+		// 用户头像
+		Avatar string `json:"avatar,omitempty"`
+		// 部门ID
+		DeptID int64 `json:"deptId,omitempty"`
+		// 邮箱
+		Email string `json:"email,omitempty"`
+		// 性别
+		Gender int64 `json:"gender,omitempty"`
+		// 用户ID
+		ID *int64 `json:"id,omitempty"`
+		// 手机号码
+		Mobile string `json:"mobile,omitempty"`
+		// 昵称
+		Nickname string `json:"nickname"`
+		// 微信openId
+		OpenID string `json:"openId,omitempty"`
+		// 角色ID集合
+		RoleIDS []string `json:"roleIds"`
+		// 用户状态(1:正常;0:禁用)
+		Status int64 `json:"status,omitempty"`
+		// 用户名
+		Username string `json:"username"`
+		// 密码
+		Password string `json:"password"`
+	}
+	UserFormReq {
+		// 用户ID
+		UserID int64 `path:"userId"`
+	}
+	// ResultUserForm
+	UserFormResp {
+		Code string    `json:"code,omitempty"`
+		Data *UserForm `json:"data,omitempty"`
+		Msg  string    `json:"msg,omitempty"`
+	}
+	// UserForm, 用户表单对象
+	UserForm {
+		// 用户头像
+		Avatar string `json:"avatar,omitempty"`
+		// 部门ID
+		DeptID int64 `json:"deptId,omitempty"`
+		// 邮箱
+		Email string `json:"email,omitempty"`
+		// 性别
+		Gender int64 `json:"gender,omitempty"`
+		// 用户ID
+		ID int64 `json:"id,omitempty"`
+		// 手机号码
+		Mobile string `json:"mobile,omitempty"`
+		// 昵称
+		Nickname string `json:"nickname"`
+		// 微信openId
+		OpenID string `json:"openId,omitempty"`
+		// 角色ID集合
+		RoleIDS []int64 `json:"roleIds"`
+		// 用户状态(1:正常;0:禁用)
+		Status int64 `json:"status,omitempty"`
+		// 用户名
+		Username string `json:"username"`
+	}
+	UpdateUserReq {
+		// 用户ID
+		UserID int64 `path:"userId"`
+	}
+	DeleUserReq {
+		// 用户ID，多个以英文逗号(,)分割
+		IDS string `jsonjson:"ids"`
+	}
+	UserProfileReq {
+		UserID int64 `jsonjson:"userId"`
 	}
 	EditDeptReq {
 		DeptID int64 `path:"deptId"`
@@ -423,6 +717,7 @@ type (
 @server (
 	group:  order
 	prefix: /v1
+	jwt:    Auth
 )
 service OrderManagement {
 	@handler AddOrder
@@ -432,12 +727,13 @@ service OrderManagement {
 	get /order (ListOrderRequest) returns (ListOrderResp)
 
 	@handler UpdateOrder
-	put /order/:orderId (PutOrderReq)
+	put /order(PutOrderReq)
 }
 
 @server (
 	group:  product
 	prefix: /v1
+	jwt:    Auth
 )
 service OrderManagement {
 	@handler AddProduct
@@ -447,72 +743,5 @@ service OrderManagement {
 	put /product (PostProduct)
 
 	@handler ListProduct
-	get /product (ListProductReq) returns (ListProductResp)
+	get /product(ListProductReq) returns (ListProductResp)
 }
-
-@server (
-	group:  dept
-	prefix: /v1
-)
-service OrderManagement {
-	@handler EditDept
-	put /dept/:deptId (EditDeptReq) returns (CommonResponse)
-
-	@handler ListDept
-	get /dept (ListDeptReq) returns (ListDeptVOResp)
-
-	@handler AddDept
-	post /dept (AddDeptReq) returns (CommonResponse)
-
-	@handler ListDeptFrom
-	get /dept/:deptId/form (ListDeptFromReq) returns (ListDeptFromResp)
-
-	@handler ListDeptOptions
-	get /dept/options (ListDeptOptionsReq) returns (ListDeptOptionsResp)
-
-	@handler DeleteDeptReq
-	delete /dept/:ids (DeleteDeptReq) returns (CommonResponse)
-}
-
-@server (
-	group:  menu
-	prefix: /v1
-)
-service OrderManagement {
-	@handler UpdateMenuReq
-	// 更新
-	put /api/v1/menus/:Id (UpdateMenuReq) returns (CommonResponse)
-
-	// 删除菜单
-	@handler deleteMenu
-	delete /api/v1/menus/:id (DeleteMenuReq) returns (CommonResponse)
-
-	// 获取菜单列表
-	@handler getMenuList
-	get /api/v1/menus (MenuListReq) returns (MenuListResp)
-
-	// 新增菜单
-	@handler createMenu
-	post /api/v1/menus (CreateMenuReq) returns (CommonResponse)
-
-	// 修改菜单显示状态
-	@handler updateMenuVisibility
-	patch /api/v1/menus/:menuId (UpdateMenuVisibilityReq) returns (CommonResponse)
-
-	// 获取菜单表单数据
-	@handler getMenuFormData
-	get /api/v1/menus/:id/form (GetMenuFormDataReq) returns (GetMenuFormDataResp)
-
-	// 获取菜单路由列表
-	@handler getMenuRoutes
-	get /api/v1/menus/routes (GetMenuRoutesReq) returns (GetMenuRoutesResp)
-
-	// 获取菜单详情
-	@handler getMenuDetail
-	get /api/v1/menus/:id (GetMenuDetailReq) returns (GetMenuDetailResp)
-
-	// 获取菜单下拉列表
-	@handler getMenuOptions
-	get /api/v1/menus/options (GetMenuOptionsReq) returns (GetMenuOptionsResp)
-}
-
