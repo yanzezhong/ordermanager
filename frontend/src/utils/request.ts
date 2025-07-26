@@ -2,6 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import router from '@/router'
 
 // 创建 axios 实例
 const request = axios.create({
@@ -47,7 +48,10 @@ request.interceptors.response.use(
           break
         case 401:
           message = '未授权，请重新登录'
-          // 可以在这里处理登录过期
+          // 清除token并跳转到登录页
+          localStorage.removeItem('token')
+          localStorage.removeItem('userInfo')
+          router.push('/login')
           break
         case 403:
           message = '拒绝访问'
