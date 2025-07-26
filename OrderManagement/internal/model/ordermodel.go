@@ -2,8 +2,13 @@ package model
 
 import (
 	"context"
+	"time"
+
 	"github.com/zeromicro/go-zero/core/stores/mon"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var _ OrderModel = (*customOrderModel)(nil)
@@ -14,6 +19,7 @@ type (
 	OrderModel interface {
 		orderModel
 		Search(ctx context.Context, cond OrderCond) ([]*Order, int64, error)
+		InsertMany(ctx context.Context, data []*Order) (*mongo.InsertManyResult, error)
 	}
 
 	customOrderModel struct {
@@ -81,4 +87,21 @@ func (m *customOrderModel) Search(ctx context.Context, cond OrderCond) ([]*Order
 		return nil, 0, err
 	}
 	return r, count, nil
+}
+
+// InsertMany 批量插入多个 order 记录
+func (m *customOrderModel) InsertMany(ctx context.Context, data []*Order) (*mongo.InsertManyResult, error) {
+	now := time.Now()
+	documents := make([]interface{}, len(data))
+
+	for _, order := range data {
+		if order.ID == "" {
+			order.ID = primitive.NewObjectID().String()
+		}
+		order.CreateAt = now
+		order.UpdateAt = now
+		documents = append(documents, order)
+	}
+
+	return m.conn.InsertMany(ctx, documents, options.InsertMany())
 }

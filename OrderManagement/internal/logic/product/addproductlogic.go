@@ -30,10 +30,13 @@ func (l *AddProductLogic) AddProduct(req *types.PostProduct) error {
 	product := &model.Product{
 		BarCode:       req.BarCode,
 		Image:         req.Image,
-		IsActive:      req.IsActive,
 		Name:          req.Name,
 		NickName:      req.NickName,
 		Specification: req.Specification,
+	}
+
+	if req.IsActive != nil {
+		product.IsActive = *req.IsActive
 	}
 
 	product.Price = model.Price{

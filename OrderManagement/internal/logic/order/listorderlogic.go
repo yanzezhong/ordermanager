@@ -60,14 +60,17 @@ func convertOrder(orders []*model.Order) []*types.Order {
 			CreateTime:  order.CreateAt.UnixMilli(),
 			UpdateTime:  order.UpdateAt.UnixMilli(),
 		}
-		for _, product := range order.Products {
-			o.Products = append(o.Products, &types.Products{
-				ProductId:   product.ProductId,
-				ProductName: product.ProductName,
-				Price:       product.Price,
-				Count:       product.Count,
-			})
-		}
+		//todo 重写
+
+		// for _, product := range order.Products {
+		// 	// o.Products = append(o.Products, &types.Products{
+		// 	// 	ProductId:   product.ProductId,
+		// 	// 	ProductName: product.ProductName,
+		// 	// 	Price:       product.Price,
+		// 	// 	Count:       product.Count,
+		// 	// })
+		// }
+
 		results = append(results, o)
 	}
 
