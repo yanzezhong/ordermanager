@@ -39,11 +39,17 @@ func main() {
 	deptCol := db.Collection("dept")
 	var depts []interface{}
 	for i := 1; i <= 10; i++ {
+		var parentId int64
+		if i == 1 {
+			parentId = 1 // 或 0，按你的业务需求
+		} else {
+			parentId = int64(rand.Intn(i-1) + 1)
+		}
 		depts = append(depts, bson.M{
 			"_id":      int64(i),
 			"code":     fmt.Sprintf("DPT%03d", i),
 			"name":     fmt.Sprintf("部门%d", i),
-			"parentId": int64(ifThenElse(i == 1, 0, rand.Intn(i-1)+1)),
+			"parentId": parentId,
 			"status":   int64(1),
 			"sort":     int64(i),
 			"updateAt": time.Now(),
@@ -60,9 +66,15 @@ func main() {
 	menuCol := db.Collection("menu")
 	var menus []interface{}
 	for i := 1; i <= 10; i++ {
+		var parentId int64
+		if i == 1 {
+			parentId = 1 // 或 0，按你的业务需求
+		} else {
+			parentId = int64(rand.Intn(i-1) + 1)
+		}
 		menus = append(menus, bson.M{
 			"id":         int64(i),
-			"parentId":   int64(ifThenElse(i == 1, 0, rand.Intn(i-1)+1)),
+			"parentId":   parentId,
 			"name":       fmt.Sprintf("菜单%d", i),
 			"routeName":  fmt.Sprintf("route%d", i),
 			"routePath":  fmt.Sprintf("/path%d", i),
@@ -143,12 +155,4 @@ func main() {
 		log.Fatal("插入订单失败:", err)
 	}
 	fmt.Println("订单测试数据插入完成")
-}
-
-// ifThenElse是Go里没有的三元运算符
-func ifThenElse(cond bool, a, b int) int {
-	if cond {
-		return a
-	}
-	return b
 }

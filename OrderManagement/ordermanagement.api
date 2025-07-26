@@ -131,9 +131,9 @@ type (
 	}
 	ListDeptReq {
 		// 关键字(部门名称)
-		Keywords string `json:"keywords,omitempty"`
+		Keywords string `json:"keywords,optional"`
 		// 状态(1->正常；0->禁用)
-		Status string `json:"status"`
+		Status string `json:"status,optional"`
 	}
 	// ResultListDeptVO
 	ListDeptVOResp {
@@ -165,21 +165,21 @@ type (
 	// DeptForm，部门表单对象
 	AddDeptReq {
 		// 部门编号
-		Code string `json:"code,omitempty"`
+		Code string `json:"code,optional"`
 		// 部门ID
-		ID int64 `json:"id,omitempty"`
+		ID int64 `json:"id,optional"`
 		// 部门名称
-		Name string `json:"name,omitempty"`
+		Name string `json:"name,optional"`
 		// 父部门ID
-		ParentID int64 `json:"parentId"`
+		ParentID int64 `json:"parentID,optional"`
 		// 排序(数字越小排名越靠前)
-		Sort int64 `json:"sort,omitempty"`
+		Sort int64 `json:"sort,optional"`
 		// 状态(1:启用;0:禁用)
-		Status int64 `json:"status,omitempty"`
+		Status int64 `json:"status,optional"`
 	}
 	ListDeptFromReq {
 		// 部门ID
-		DeptID int64 `path:"deptId,omitempty"`
+		DeptID int64 `path:"deptId,optional"`
 	}
 	// ResultDeptForm
 	ListDeptFromResp {
@@ -203,7 +203,7 @@ type (
 		Status int64 `json:"status,omitempty"`
 	}
 	ListDeptOptionsReq {
-		Authorization string `header:"Authorization,omitempty"`
+		Authorization string `header:"Authorization,optional"`
 	}
 	// ResultListOptionLong
 	ListDeptOptionsResp {
@@ -428,7 +428,7 @@ type (
 	group:  order
 	prefix: /v1
 )
-service Management {
+service OrderManagement {
 	@handler AddOrder
 	post /order (PostOrder)
 
@@ -443,7 +443,7 @@ service Management {
 	group:  product
 	prefix: /v1
 )
-service Management {
+service OrderManagement {
 	@handler AddProduct
 	post /product (PostProduct)
 
@@ -458,7 +458,7 @@ service Management {
 	group:  dept
 	prefix: /v1
 )
-service Management {
+service OrderManagement {
 	@handler EditDept
 	put /dept/:deptId (EditDeptReq) returns (CommonResponse)
 
@@ -482,7 +482,7 @@ service Management {
 	group:  menu
 	prefix: /v1
 )
-service Management {
+service OrderManagement {
 	@handler UpdateMenuReq
 	// 更新
 	put /api/v1/menus/:Id (UpdateMenuReq) returns (CommonResponse)

@@ -4,12 +4,12 @@
 package types
 
 type AddDeptReq struct {
-	Code     string `json:"code,omitempty"`
-	ID       int64  `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
-	ParentID int64  `json:"parentId"`
-	Sort     int64  `json:"sort,omitempty"`
-	Status   int64  `json:"status,omitempty"`
+	Code     string `json:"code,optional"`
+	ID       int64  `json:"id,optional"`
+	Name     string `json:"name,optional"`
+	ParentID int64  `json:"optional"`
+	Sort     int64  `json:"sort,optional"`
+	Status   int64  `json:"status,optional"`
 }
 
 type CommonResponse struct {
@@ -125,7 +125,7 @@ type KeyValue struct {
 }
 
 type ListDeptFromReq struct {
-	DeptID int64 `path:"deptId,omitempty"`
+	DeptID int64 `path:"deptId,optional"`
 }
 
 type ListDeptFromResp struct {
@@ -135,7 +135,7 @@ type ListDeptFromResp struct {
 }
 
 type ListDeptOptionsReq struct {
-	Authorization string `header:"Authorization,omitempty"`
+	Authorization string `header:"Authorization,optional"`
 }
 
 type ListDeptOptionsResp struct {
@@ -145,8 +145,8 @@ type ListDeptOptionsResp struct {
 }
 
 type ListDeptReq struct {
-	Keywords string `json:"keywords,omitempty"`
-	Status   string `json:"status"`
+	Keywords string `json:"keywords,optional"`
+	Status   string `json:"status,optional"`
 }
 
 type ListDeptVOResp struct {
