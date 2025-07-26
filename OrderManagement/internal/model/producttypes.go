@@ -31,7 +31,7 @@ type Product struct {
 // Price 价格应该写在订单上,该Price只用作展示
 type Price struct {
 	Terminal  float64 `bson:"terminal,omitempty" json:"terminal,omitempty"`   // 终端零售价
-	WholeSale float64 `bson:"wholesale,omitempty" json:"wholesale,omitempty"` // 批发零售价
+	WholeSale float64 `bson:"wholesale,omitempty" json:"wholesale,omitempty"` // 批发零售价(以后改成多个的)
 	Cost      float64 `bson:"cost,omitempty" json:"cost,omitempty"`           // 进价
 	SRP       float64 `bson:"srp,omitempty" json:"srp,omitempty"`             // 建议零售价 Suggested Retail Price
 	Warning   float64 `bson:"warning,omitempty" json:"warning,omitempty"`     // 报警价格

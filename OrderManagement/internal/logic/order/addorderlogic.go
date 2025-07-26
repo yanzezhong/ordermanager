@@ -36,15 +36,17 @@ func (l *AddOrderLogic) AddOrder(req *types.PostOrder) error {
 
 	products := make([]*model.Products, 0)
 
-	for _, product := range req.Products {
-		p := &model.Products{
-			Count:       product.Count,
-			Price:       product.Price,
-			ProductId:   product.ProductId,
-			ProductName: product.ProductName,
-		}
-		products = append(products, p)
-	}
+	//todo  重写
+
+	// for _, product := range req.Products {
+	// 	// p := &model.Products{
+	// 	// 	Count:       product.Count,
+	// 	// 	Price:       product.Price,
+	// 	// 	ProductId:   product.ProductId,
+	// 	// 	ProductName: product.ProductName,
+	// 	// }
+	// 	products = append(products, p)
+	// }
 
 	order.Products = products
 	order.PurchaserId = req.PurchaserId

@@ -1,13 +1,14 @@
 package model
 
 const (
-	CollectionOrder   = "order"
-	CollectionProduct = "product"
-	CollectionShop    = "shop"
-	CollectionDept    = "dept"
-	CollectionMenu    = "menu"
-	CollectionCounter = "counter"
-	CollectionUser    = "user"
+	CollectionOrder         = "order"
+	CollectionProduct       = "product"
+	CollectionShop          = "shop"
+	CollectionDept          = "dept"
+	CollectionMenu          = "menu"
+	CollectionCounter       = "counter"
+	CollectionUser          = "user"
+	CollectionInvoiceDetail = "invoiceDetail"
 )
 
 // order
@@ -34,8 +35,16 @@ const (
 	UserStateDelete UserState = 1
 	// 用户状态 正常
 	UserStateNormal UserState = 2
+
+	// customerLevel
+
+	CustomerLevelTermianl  CustomerType = "终端客户"
+	CustomerLevelWholeSale CustomerType = "批发客户"
 )
 
+func (c CustomerType) String() string {
+	return string(c)
+}
 func (s State) IsValid() bool {
 	switch s {
 	case StatePlaceOrder, StateDelivering, StateDelivered, StateCancel, StateFinish:

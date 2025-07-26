@@ -3,6 +3,7 @@ package shop
 import (
 	"context"
 
+	"OrderManagement/OrderManagement/internal/model"
 	"OrderManagement/OrderManagement/internal/svc"
 	"OrderManagement/OrderManagement/internal/types"
 
@@ -24,7 +25,45 @@ func NewListShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListShop
 }
 
 func (l *ListShopLogic) ListShop(req *types.ListShopReq) (resp *types.ListShopResp, err error) {
-	// todo: add your logic here and delete this line
 
+	cond := &model.ShopCond{
+		Address:      req.Address,
+		CustomerType: req.CustomerLevel,
+		PageParam: model.PageParam{
+			Page: req.Page,
+			Size: req.Size,
+		},
+		PhoneNumber: req.PhoneNumber,
+		ShopName:    req.ShopName,
+	}
+
+	shops, count, err := l.svcCtx.ShopModel.Search(l.ctx, cond)
+
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &types.ListShopResp{
+		Count: count,
+		Items: convertShop(shops),
+	}
 	return
+}
+
+func convertShop(shops []*model.Shop) []*types.Shop {
+	result := []*types.Shop{}
+	for _, shop := range shops {
+		result = append(result, &types.Shop{
+			Address:       shop.Address,
+			CustomerLevel: shop.CustomerLevel,
+			ID:            shop.ID,
+			PhoneNumber:   shop.PhoneNumber,
+			ShopName:      shop.ShopName,
+			ShopNameMD5:   shop.ShopNameMD5,
+			UpdateAt:      shop.UpdateAt.Unix(),
+			CreateAt:      shop.CreateAt.Unix(),
+		})
+	}
+
+	return result
 }
