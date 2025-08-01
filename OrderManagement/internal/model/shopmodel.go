@@ -39,12 +39,27 @@ func NewShopModel(url, db, collection string) ShopModel {
 
 // ShopCond 店铺查询条件结构体
 type ShopCond struct {
-	ShopName     string    `json:"shopName"`
-	CustomerType string    `json:"customerType"`
-	Address      string    `json:"address"`
-	PhoneNumber  string    `json:"phoneNumber"`
-	UpdataAt     TimeRange `json:"UpdataAt"`
-	CreateAt     TimeRange `json:"CreateAt"`
+	ShopName            string    `json:"shopName"`
+	CustomerType        string    `json:"customerType"`
+	Address             string    `json:"address"`
+	PhoneNumber         string    `json:"phoneNumber"`
+	CustomerID          string    `json:"customerId"`
+	CustomerSource      string    `json:"customerSource"`
+	Category            string    `json:"category"`
+	SettlementMethod    string    `json:"settlementMethod"`
+	Remarks             string    `json:"remarks"`
+	MnemonicCode        string    `json:"mnemonicCode"`
+	CollectionPeriod    int       `json:"collectionPeriod"`
+	CreditLimit         int       `json:"creditLimit"`
+	ArrearsBalance      float64   `json:"arrearsBalance"`
+	PrepaymentBalance   float64   `json:"prepaymentBalance"`
+	LastTransactionTime int64     `json:"lastTransactionTime"`
+	Longitude           float64   `json:"longitude"`
+	Latitude            float64   `json:"latitude"`
+	AdCode              string    `json:"adCode"`
+	LocationTime        int64     `json:"locationTime"`
+	UpdataAt            TimeRange `json:"UpdataAt"`
+	CreateAt            TimeRange `json:"CreateAt"`
 	PageParam
 }
 
@@ -59,13 +74,58 @@ func (m *ShopCond) genCond() bson.M {
 		cond["shopNameMD5"] = shopNameMD5
 	}
 	if m.CustomerType != "" {
-		cond["customerType"] = m.CustomerType
+		cond["customerLevel"] = m.CustomerType
 	}
 	if m.Address != "" {
 		cond["address"] = m.Address
 	}
 	if m.PhoneNumber != "" {
 		cond["phoneNumber"] = m.PhoneNumber
+	}
+	if m.CustomerID != "" {
+		cond["customerId"] = m.CustomerID
+	}
+	if m.CustomerSource != "" {
+		cond["customerSource"] = m.CustomerSource
+	}
+	if m.Category != "" {
+		cond["category"] = m.Category
+	}
+	if m.SettlementMethod != "" {
+		cond["settlementMethod"] = m.SettlementMethod
+	}
+	if m.Remarks != "" {
+		cond["remarks"] = m.Remarks
+	}
+	if m.MnemonicCode != "" {
+		cond["mnemonicCode"] = m.MnemonicCode
+	}
+	if m.CollectionPeriod > 0 {
+		cond["collectionPeriod"] = m.CollectionPeriod
+	}
+	if m.CreditLimit > 0 {
+		cond["creditLimit"] = m.CreditLimit
+	}
+	if m.ArrearsBalance > 0 {
+		cond["arrearsBalance"] = m.ArrearsBalance
+	}
+	if m.PrepaymentBalance > 0 {
+		cond["prepaymentBalance"] = m.PrepaymentBalance
+	}
+	if m.LastTransactionTime > 0 {
+		cond["lastTransactionTime"] = bson.M{"$gte": time.Unix(m.LastTransactionTime, 0)}
+	}
+	if m.Longitude != 0 {
+		cond["longitude"] = m.Longitude
+	}
+	if m.Latitude != 0 {
+		cond["latitude"] = m.Latitude
+	}
+	if m.AdCode != "" {
+		cond["adCode"] = m.AdCode
+	}
+	if m.LocationTime > 0 {
+		cond["locationTime"] = bson.M{"$gte": time.Unix(m.LocationTime, 0)}
 	}
 
 	// 处理 UpdateAt 时间范围查询

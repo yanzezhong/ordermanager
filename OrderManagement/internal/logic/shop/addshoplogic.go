@@ -29,10 +29,23 @@ func NewAddShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddShopLo
 func (l *AddShopLogic) AddShop(req *types.PostShop) error {
 	// todo: add your logic here and delete this line
 	shop := &model.Shop{
-		Address:       req.Address,
-		CustomerLevel: req.CustomerLevel,
-		PhoneNumber:   req.PhoneNumber,
-		ShopName:      req.ShopName,
+		Address:           req.Address,
+		CustomerLevel:     model.CustomerType(req.CustomerLevel),
+		PhoneNumber:       req.PhoneNumber,
+		ShopName:          req.ShopName,
+		CustomerID:        req.CustomerID,
+		CustomerSource:    req.CustomerSource,
+		Category:          req.Category,
+		SettlementMethod:  req.SettlementMethod,
+		Remarks:           req.Remarks,
+		MnemonicCode:      req.MnemonicCode,
+		CollectionPeriod:  req.CollectionPeriod,
+		CreditLimit:       req.CreditLimit,
+		ArrearsBalance:    req.ArrearsBalance,
+		PrepaymentBalance: req.PrepaymentBalance,
+		Longitude:         req.Longitude,
+		Latitude:          req.Latitude,
+		AdCode:            req.AdCode,
 	}
 
 	// shopName MD5

@@ -145,7 +145,7 @@ func (m *SyncLaikenData) syncLaikenData() {
 func (*SyncLaikenData) genShop(v *model.InvoiceDetail) *model.Shop {
 	shop := &model.Shop{
 		ShopName:      v.Customer,
-		CustomerLevel: v.CustomerLevel,
+		CustomerLevel: model.CustomerType(v.CustomerLevel),
 		Address:       "",
 		PhoneNumber:   "",
 		UpdateAt:      v.UpdateAt,

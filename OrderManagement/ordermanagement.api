@@ -13,7 +13,7 @@ type (
 		Name          string `json:"name,omitempty"` // 商品名称
 		Price         Price  `json:"price,omitempty"` // 商品价格
 		Specification int    `json:"specification,omitempty"` // 规格
-		IsActive      bool   `json:"isActive,omitempty"` // 是否生效
+		IsActive      *bool   `json:"isActive,omitempty"` // 是否生效
 		Image         string `json:"image,omitempty"` // 图片
 		NickName      string `json:"nickName,omitempty"` // 别名
 		BarCode       string `json:"barCode,omitempty"` //条码

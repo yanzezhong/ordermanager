@@ -8,6 +8,7 @@ const (
 	ErrPaymentStateInvalid = 1000001 // 支付状态无效
 	ErrOrderNotFound       = 1000002 // 订单不存在
 	ErrStateInvalid        = 1000003 // 订单状态无效
+	ErrProductNotFound     = 1000008 // 产品不存在
 
 	ErrDeleteCountTooMany = 1000004
 

@@ -29,7 +29,7 @@ func (l *UpdateProductLogic) UpdateProduct(req *types.PostProduct) error {
 	// todo: add your logic here and delete this line
 	//
 
-	product, err := l.svcCtx.ProductModel.FindOne(l.ctx, req.ProductID)
+	product, err := l.svcCtx.ProductModel.FindOne(l.ctx, req.ProductId)
 	if err != nil {
 		return err
 	}
